@@ -25,7 +25,7 @@ namespace Rinsen.Logger
             return _filter == null || _filter(_name, logLevel);
         }
 
-        public void Log(LogLevel logLevel, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
             if (!IsEnabled(logLevel))
             {
@@ -34,9 +34,9 @@ namespace Rinsen.Logger
 
             string message;
             string exceptionStackTrace;
-            if (state is string)
+            if (typeof(TState) == typeof(string))
             {
-                message = (string)state;
+                message = state.ToString();
             }
             else
             {
@@ -45,11 +45,6 @@ namespace Rinsen.Logger
             exceptionStackTrace = formatter(state, exception);
 
             _logQueue.AddLog(_name, _environmentName, logLevel, message, exceptionStackTrace);
-        }
-
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-        {
-            throw new NotImplementedException();
         }
 
         public IDisposable BeginScope<TState>(TState state)

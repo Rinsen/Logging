@@ -28,9 +28,10 @@ namespace Rinsen.Logger
             {
                 options.ConnectionString = Configuration["Data:DefaultConnection:ConnectionString"];
                 options.EnvironmentName = Env.EnvironmentName;
-                options.MinLevel = LogLevel.Warning;
+                options.MinLevel = LogLevel.Debug;
             });
-            
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +40,16 @@ namespace Rinsen.Logger
             loggerFactory.UseLogger(app);
             app.UseLoggerDatabaseLogWriter();
             
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            var logger = loggerFactory.CreateLogger<Startup>();
+
+            logger.LogDebug("Staring things");
         }
     }
 }
