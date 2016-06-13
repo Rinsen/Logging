@@ -16,7 +16,7 @@ namespace Rinsen.Logger
 
             if (string.IsNullOrEmpty(logOptions.ConnectionString))
             {
-                throw new ArgumentException("ConnectionString is mandatory", nameof(logOptions));
+                throw new ArgumentException("Property ConnectionString is required", nameof(logOptions));
             }
             
             services.AddSingleton(logOptions);
