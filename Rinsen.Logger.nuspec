@@ -1,0 +1,33 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Rinsen.Logger</id>
+    <version>0.1.0-beta</version>
+    <title>Logger Asp.Net Core</title>
+    <authors>Fredrik Rinsén</authors>
+    <owners>Fredrik Rinsén</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/Rinsen/Logging</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Logger implementation for aspnetcore</description>
+    <releaseNotes>
+      0.1.0 Initial commit.
+    </releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>logger aspnetcore</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard1.0">
+        <dependency id="Microsoft.AspNetCore.Http.Abstractions" version="1.0.0-rc2-final" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="1.0.0-rc2-final" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.0-rc2-final" />
+        <dependency id="NETStandard.Library" version="1.5.0-rc2-24027" />
+        <dependency id="System.Data.SqlClient" version="4.1.0-rc2-24027" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="\src\Rinsen.Logger\bin\Release\netstandard1.0\Rinsen.Logger.dll" target="lib\netstandard1.0" />
+    <file src="\src\Rinsen.Logger\bin\Release\netstandard1.0\Rinsen.Logger.pdb" target="lib\netstandard1.0" />
+    <file src="\src\Rinsen.Logger\bin\Release\netstandard1.0\Rinsen.Logger.deps.json" target="lib\netstandard1.0" />
+  </files>
+</package>

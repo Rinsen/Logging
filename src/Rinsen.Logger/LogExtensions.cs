@@ -25,11 +25,6 @@ namespace Rinsen.Logger
             services.AddSingleton<LogHandler, LogHandler>();
             services.AddSingleton<LoggerProvider, LoggerProvider>();
             services.AddTransient<DatabaseLogWriter, DatabaseLogWriter>();
-            //services.AddTransient<FileLogWriter, FileLogWriter>();
-
-            //services.AddEntityFramework()
-            //    .AddDbContext<DatabaseLogWriter>(options =>
-            //        options.UseSqlServer(logOptions.ConnectionString));
         }
 
         public static ILoggerFactory UseLogger(this ILoggerFactory factory, IApplicationBuilder app)
@@ -41,11 +36,13 @@ namespace Rinsen.Logger
             return factory;
         }
 
-        static void StartLogger(IApplicationBuilder app)
+        static LogHandler StartLogger(IApplicationBuilder app)
         {
             var logHandler = app.ApplicationServices.GetRequiredService<LogHandler>();
 
             logHandler.Start();
+
+            return logHandler;
         }
 
         public static void UseLoggerDatabaseLogWriter(this IApplicationBuilder app)
@@ -54,20 +51,5 @@ namespace Rinsen.Logger
 
             logHandler.LogWriters.Add(app.ApplicationServices.GetRequiredService<DatabaseLogWriter>());
         }
-
-        //public static void UseSimpleLoggerFileLogWriter(this IApplicationBuilder app)
-        //{
-        //    var logHandler = app.ApplicationServices.GetRequiredService<LogHandler>();
-
-        //    logHandler.LogWriters.Add(app.ApplicationServices.GetRequiredService<FileLogWriter>());
-        //}
-
-        //public static void RunLoggerInstaller(this IApplicationBuilder app)
-        //{
-        //    var installation = new List<DatabaseVersion>();
-        //    installation.Add(new CreateLogTable());
-
-        //    app.ApplicationServices.GetRequiredService<Installer>().Run(installation);
-        //}
     }
 }

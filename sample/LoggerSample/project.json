@@ -14,7 +14,7 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0-rc2-final",
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc2-final",
     "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0-rc2-final",
-    "Rinsen.Logger": "1.0.0-*"
+    "Rinsen.Logger": "0.1.0-beta"
   },
 
   "tools": {
@@ -27,9 +27,7 @@
   "frameworks": {
     "netcoreapp1.0": {
       "imports": [
-        "dotnet5.6",
-        "dnxcore50",
-        "portable-net45+win8"
+        "netcore50"
       ]
     }
   },

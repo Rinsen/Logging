@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{00ED8C56-0D7B-4DF8-B249-A5299A5B99BA}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		Rinsen.Logger.nuspec = Rinsen.Logger.nuspec
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{62800D4D-21EC-40EB-9C55-3F1DBD028186}"
