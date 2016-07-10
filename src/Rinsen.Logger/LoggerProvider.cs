@@ -23,7 +23,6 @@ namespace Rinsen.Logger
 
         public void Dispose()
         {
-            // TODO what to dispose?
         }
     }
 }

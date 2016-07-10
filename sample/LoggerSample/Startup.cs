@@ -38,7 +38,6 @@ namespace Rinsen.Logger
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.UseLogger(app);
-            app.UseLoggerDatabaseLogWriter();
             
             app.UseMvc(routes =>
             {

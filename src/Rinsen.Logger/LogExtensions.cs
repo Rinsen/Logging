@@ -24,32 +24,23 @@ namespace Rinsen.Logger
             services.AddSingleton<ILogQueue, LogQueue>();
             services.AddSingleton<LogHandler, LogHandler>();
             services.AddSingleton<LoggerProvider, LoggerProvider>();
-            services.AddTransient<DatabaseLogWriter, DatabaseLogWriter>();
+            services.AddTransient<ILogWriter, DatabaseLogWriter>();
         }
 
-        public static ILoggerFactory UseLogger(this ILoggerFactory factory, IApplicationBuilder app)
+        public static void UseLogger(this ILoggerFactory factory, IApplicationBuilder app)
         {
             factory.AddProvider(app.ApplicationServices.GetRequiredService<LoggerProvider>());
 
             Task.Run(() => StartLogger(app));
-
-            return factory;
         }
 
-        static LogHandler StartLogger(IApplicationBuilder app)
+        private static void StartLogger(IApplicationBuilder app)
         {
             var logHandler = app.ApplicationServices.GetRequiredService<LogHandler>();
+
+            logHandler.LogWriters.Add(app.ApplicationServices.GetRequiredService<ILogWriter>());
 
             logHandler.Start();
-
-            return logHandler;
-        }
-
-        public static void UseLoggerDatabaseLogWriter(this IApplicationBuilder app)
-        {
-            var logHandler = app.ApplicationServices.GetRequiredService<LogHandler>();
-
-            logHandler.LogWriters.Add(app.ApplicationServices.GetRequiredService<DatabaseLogWriter>());
         }
     }
 }

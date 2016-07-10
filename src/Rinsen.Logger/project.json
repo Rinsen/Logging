@@ -1,17 +1,17 @@
 {
-  "version": "0.1.0-beta",
+  "version": "0.2.0-beta",
 
   "dependencies": {
-    "Microsoft.AspNetCore.Http.Abstractions": "1.0.0-rc2-final",
-    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc2-final",
-    "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc2-final",
-    "NETStandard.Library": "1.5.0-rc2-24027",
-    "System.Data.SqlClient": "4.1.0-rc2-24027"
+    "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
+    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
+    "Microsoft.Extensions.Logging.Abstractions": "1.0.0",
+    "NETStandard.Library": "1.6.0",
+    "System.Data.SqlClient": "4.1.0"
   },
 
   "frameworks": {
     "netstandard1.0": {
-      "imports": "netcore50"
+      "imports": "netcoreapp1.0"
     }
   }
 }
