@@ -3,13 +3,13 @@ using System;
 
 namespace Rinsen.Logger
 {
-    public class LoggerProvider : ILoggerProvider
+    public class QueueLoggerProvider : ILoggerProvider
     {
         readonly Func<string, LogLevel, bool> _filter;
         readonly ILogQueue _logQueue;
         readonly LogOptions _options;
 
-        public LoggerProvider(ILogQueue logQueue, LogOptions options)
+        public QueueLoggerProvider(ILogQueue logQueue, LogOptions options)
         {
             _filter = (category, logLevel) => logLevel >= options.MinLevel && category.StartsWith("");
             _logQueue = logQueue;

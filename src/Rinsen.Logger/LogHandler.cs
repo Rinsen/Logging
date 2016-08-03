@@ -7,16 +7,17 @@ namespace Rinsen.Logger
 {
     public class LogHandler
     {
-        public List<ILogWriter> LogWriters { get; set; }
+        public List<ILogWriter> LogWriters { get; private set; }
 
         readonly LogOptions _options;
         readonly ILogQueue _logQueue;
-
-        public LogHandler(LogOptions options, ILogQueue logQueue)
+        
+        public LogHandler(LogOptions options, ILogQueue logQueue, ILogWriter logWriter)
         {
             _options = options;
             _logQueue = logQueue;
             LogWriters = new List<ILogWriter>();
+            LogWriters.Add(logWriter);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0022:A catch clause that catches System.Exception and has an empty body", Justification = "Failing ILogWriter should only try to be logged in other log writers and not throw any exceptions")]

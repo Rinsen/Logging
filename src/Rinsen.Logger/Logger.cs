@@ -31,20 +31,28 @@ namespace Rinsen.Logger
             {
                 return;
             }
-
-            string message;
+            
             string exceptionStackTrace;
-            if (typeof(TState) == typeof(string))
+            if (exception != null)
             {
-                message = state.ToString();
+                exceptionStackTrace = exception.StackTrace;
+                ProcessInnerException(logLevel, exception);
             }
             else
             {
-                message = "No message";
+                exceptionStackTrace = string.Empty;
             }
-            exceptionStackTrace = formatter(state, exception);
 
-            _logQueue.AddLog(_name, _environmentName, logLevel, message, exceptionStackTrace);
+            _logQueue.AddLog(_name, _environmentName, logLevel, formatter(state, exception), exceptionStackTrace);
+        }
+
+        private void ProcessInnerException(LogLevel logLevel, Exception exception)
+        {
+            if (exception.InnerException != null)
+            {
+                _logQueue.AddLog(_name, _environmentName, logLevel, exception.Message, exception.StackTrace);
+                ProcessInnerException(logLevel, exception.InnerException);
+            }
         }
 
         public IDisposable BeginScope<TState>(TState state)

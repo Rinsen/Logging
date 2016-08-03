@@ -15,5 +15,11 @@ namespace Rinsen.Logger.Controllers
         {
             return View();
         }
+
+        // GET: /<controller>/
+        public IActionResult Error()
+        {
+            throw new NotImplementedException("Not done", new Exception("My inner exception"));
+        }
     }
 }
