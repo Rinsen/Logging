@@ -25,6 +25,7 @@ namespace Rinsen.Logger
             services.AddSingleton<LogHandler, LogHandler>();
             services.AddSingleton<QueueLoggerProvider, QueueLoggerProvider>();
             services.AddSingleton<ILogWriter, DatabaseLogWriter>();
+            services.AddSingleton<IRinsenLoggerInitializer, RinsenLoggerInitializer>();
         }
     }
 }
