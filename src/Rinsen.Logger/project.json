@@ -1,10 +1,11 @@
 {
-  "version": "0.2.1-beta",
+  "version": "0.2.3-beta",
 
   "dependencies": {
     "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
     "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
     "Microsoft.Extensions.Logging.Abstractions": "1.0.0",
+    "Microsoft.Extensions.Logging.Filter": "1.0.0",
     "NETStandard.Library": "1.6.0",
     "System.Data.SqlClient": "4.1.0"
   },

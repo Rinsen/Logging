@@ -19,6 +19,8 @@ namespace Rinsen.Logger
 
         public DateTimeOffset Timestamp { get; set; }
 
+        public string ExceptionMessage { get; set; }
+
         public string StackTrace { get; set; }
     }
 }

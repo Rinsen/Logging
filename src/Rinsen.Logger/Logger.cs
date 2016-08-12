@@ -33,24 +33,29 @@ namespace Rinsen.Logger
             }
             
             string exceptionStackTrace;
+            string exceptionMessage;
             if (exception != null)
             {
                 exceptionStackTrace = exception.StackTrace;
+                exceptionMessage = exception.Message;
                 ProcessInnerException(logLevel, exception);
             }
             else
             {
+                exceptionMessage = string.Empty;
                 exceptionStackTrace = string.Empty;
             }
 
-            _logQueue.AddLog(_name, _environmentName, logLevel, formatter(state, exception), exceptionStackTrace);
+            _logQueue.AddLog(_name, _environmentName, logLevel, formatter(state, exception), exceptionMessage, exceptionStackTrace);
         }
 
         private void ProcessInnerException(LogLevel logLevel, Exception exception)
         {
             if (exception.InnerException != null)
             {
-                _logQueue.AddLog(_name, _environmentName, logLevel, exception.Message, exception.StackTrace);
+                _logQueue.AddLog(_name, _environmentName, logLevel, string.Format("Inner exception for \"{0}\" message", exception.Message),
+                    exception.InnerException.Message, exception.InnerException.StackTrace);
+
                 ProcessInnerException(logLevel, exception.InnerException);
             }
         }

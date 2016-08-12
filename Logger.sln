@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D53C3936-BBAA-49E3-AB9F-9CE04F041CD1}"
 EndProject
@@ -17,6 +17,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "LoggerSample", "sample\Logg
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Rinsen.Logger", "src\Rinsen.Logger\Rinsen.Logger.xproj", "{6BC63497-B83C-4456-B322-BB74EFA769F2}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Rinsen.Logger.Installation", "src\Rinsen.Logger.Installation\Rinsen.Logger.Installation.xproj", "{05880085-9046-44E9-B4DD-84AD654E8774}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{6BC63497-B83C-4456-B322-BB74EFA769F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BC63497-B83C-4456-B322-BB74EFA769F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BC63497-B83C-4456-B322-BB74EFA769F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05880085-9046-44E9-B4DD-84AD654E8774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05880085-9046-44E9-B4DD-84AD654E8774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05880085-9046-44E9-B4DD-84AD654E8774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05880085-9046-44E9-B4DD-84AD654E8774}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,5 +44,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{35EA2428-0C2F-45BB-AB7D-A2A2196E1197} = {62800D4D-21EC-40EB-9C55-3F1DBD028186}
 		{6BC63497-B83C-4456-B322-BB74EFA769F2} = {D53C3936-BBAA-49E3-AB9F-9CE04F041CD1}
+		{05880085-9046-44E9-B4DD-84AD654E8774} = {D53C3936-BBAA-49E3-AB9F-9CE04F041CD1}
 	EndGlobalSection
 EndGlobal

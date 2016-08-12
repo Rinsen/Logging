@@ -8,6 +8,6 @@ namespace Rinsen.Logger
 {
     public interface IRinsenLoggerInitializer
     {
-        void Run();
+        void Run(IFilterLoggerSettings filterLoggerSettings = null);
     }
 }

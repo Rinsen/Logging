@@ -22,12 +22,12 @@ namespace Rinsen.Logger
             return _logs.Count < 1;
         }
 
-        public void AddLog(string sourceName, string environmentName, LogLevel logLevel, string message, string stackTrace)
+        public void AddLog(string sourceName, string environmentName, LogLevel logLevel, string message, string exceptionMessage, string stackTrace)
         {
             if (_logs.Count > _logOptions.QueueMazSize)
                 return;
 
-            _logs.Enqueue(new LogItem { SourceName = sourceName, EnvironmentName = environmentName, LogLevel = logLevel, Message = message, Timestamp = DateTimeOffset.Now, StackTrace = stackTrace });
+            _logs.Enqueue(new LogItem { SourceName = sourceName, EnvironmentName = environmentName, LogLevel = logLevel, Message = message, Timestamp = DateTimeOffset.Now, ExceptionMessage = exceptionMessage, StackTrace = stackTrace });
         }
 
         public IEnumerable<LogItem> GetLogs()

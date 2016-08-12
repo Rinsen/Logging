@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Rinsen.Logger</id>
-    <version>0.2.1-beta</version>
+    <version>0.2.3-beta</version>
     <title>Logger Asp.Net Core</title>
     <authors>Fredrik Rinsén</authors>
     <owners>Fredrik Rinsén</owners>
@@ -11,7 +11,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Logger implementation for aspnetcore</description>
     <releaseNotes>
-      0.2.1 Initialize logging in middleware instead of hacking into configure method in Startup.cs
+      0.2.3 Bug fixes
+      0.2.2 Added log read for database logging and a new column for exception messages
+      0.2.1 New initialization of logger
       0.2.0 Updated to ASP.NET Core 1.0 release.
     </releaseNotes>
     <copyright>Copyright 2016</copyright>
@@ -21,6 +23,7 @@
         <dependency id="Microsoft.AspNetCore.Http.Abstractions" version="1.0.0" />
         <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="1.0.0" />
         <dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.0" />
+        <dependency id="Microsoft.Extensions.Logging.Filter"  version="1.0.0" />
         <dependency id="NETStandard.Library" version="1.6.0" />
         <dependency id="System.Data.SqlClient" version="4.1.0" />
       </group>

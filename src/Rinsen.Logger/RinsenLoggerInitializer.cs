@@ -25,14 +25,22 @@ namespace Rinsen.Logger
             _logHandler = logHandler;
         }
 
-        public void Run()
+        public void Run(IFilterLoggerSettings filterLoggerSettings = null)
         {
             lock (_sync)
             {
                 if (_initialized)
                     return;
 
-                _loggerFactory.AddProvider(_queueLoggerProvider);
+                if (filterLoggerSettings == null)
+                {
+                    _loggerFactory.AddProvider(_queueLoggerProvider);
+                }
+                else
+                {
+                    _loggerFactory.WithFilter(filterLoggerSettings).AddProvider(_queueLoggerProvider);
+                }
+                
                 _logHandlerTask = Task.Run(() => _logHandler.Start());
                 _initialized = true;
             }

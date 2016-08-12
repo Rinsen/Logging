@@ -21,6 +21,7 @@ namespace Rinsen.Logger
                                     LogLevel,
                                     Message,
                                     TimeStamp,
+                                    ExceptionMessage,
                                     StackTrace) 
                                 VALUES (
                                     @SourceName,
@@ -28,6 +29,7 @@ namespace Rinsen.Logger
                                     @LogLevel,
                                     @Message,
                                     @Timestamp,
+                                    @ExceptionMessage,
                                     @StackTrace); 
                                 SELECT 
                                     CAST(SCOPE_IDENTITY() as int)"
@@ -45,6 +47,7 @@ namespace Rinsen.Logger
                         command.Parameters.Add(new SqlParameter("@LogLevel", item.LogLevel));
                         command.Parameters.Add(new SqlParameter("@Message", item.Message));
                         command.Parameters.Add(new SqlParameter("@Timestamp", item.Timestamp));
+                        command.Parameters.Add(new SqlParameter("@ExceptionMessage", item.ExceptionMessage));
                         command.Parameters.Add(new SqlParameter("@StackTrace", item.StackTrace));
 
                         item.Id = (int)command.ExecuteScalar();

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Rinsen.DatabaseInstaller;
+using Rinsen.Logger.Installation;
 
 namespace Rinsen.Logger
 {
@@ -31,15 +33,22 @@ namespace Rinsen.Logger
                 options.MinLevel = LogLevel.Debug;
             });
 
+            services.AddDatabaseInstaller(Configuration["Data:DefaultConnection:ConnectionString"]);
+
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IRinsenLoggerInitializer rinsenLoggerBuilder)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IRinsenLoggerInitializer logInitializer)
         {
-            rinsenLoggerBuilder.Run();
+            logInitializer.Run(new FilterLoggerSettings {
+                { "Microsoft", LogLevel.Warning },
+                { "Rinsen", LogLevel.Debug }
+            });
 
-            app.UseMiddleware<LogMiddleware>();
+            app.RunLoggerInstaller();
+
+            app.UseLogMiddleware();
 
             app.UseMvc(routes =>
             {
