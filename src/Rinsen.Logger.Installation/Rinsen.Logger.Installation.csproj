@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <AssemblyName>Rinsen.Logger.Installation</AssemblyName>
+    <PackageId>Rinsen.Logger.Installation</PackageId>
+    <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);netcoreapp1.1</PackageTargetFallback>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rinsen.Logger\Rinsen.Logger.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Rinsen.DatabaseInstaller" Version="0.3.7-beta" />
+  </ItemGroup>
+
+</Project>

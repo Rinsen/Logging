@@ -16,8 +16,10 @@ namespace Rinsen.Logger
         {
             _options = options;
             _logQueue = logQueue;
-            LogWriters = new List<ILogWriter>();
-            LogWriters.Add(logWriter);
+            LogWriters = new List<ILogWriter>
+            {
+                logWriter
+            };
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0022:A catch clause that catches System.Exception and has an empty body", Justification = "Failing ILogWriter should only try to be logged in other log writers and not throw any exceptions")]

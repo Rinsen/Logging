@@ -1,6 +1,4 @@
 ﻿using Rinsen.DatabaseInstaller;
-using Rinsen.DatabaseInstaller.Sql;
-using Rinsen.DatabaseInstaller.Sql.Generic;
 using System.Collections.Generic;
 
 namespace Rinsen.Logger.Installation
