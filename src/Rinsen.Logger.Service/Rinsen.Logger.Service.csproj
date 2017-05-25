@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Rinsen.Logger\Rinsen.Logger.csproj" />
+  </ItemGroup>
+</Project>

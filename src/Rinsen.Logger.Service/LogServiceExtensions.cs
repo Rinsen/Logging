@@ -2,15 +2,15 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 
-namespace Rinsen.Logger
+namespace Rinsen.Logger.Service
 {
-    public static class LogExtensions
+    public static class LogServiceExtensions
     {
-        public static void AddLogger(this IServiceCollection services, Action<LogOptions> logOptionsAction)
+        public static void AddLogger(this IServiceCollection services, Action<LogServiceOptions> logServiceOptionsAction)
         {
-            var logOptions = new LogOptions();
+            var logOptions = new LogServiceOptions();
 
-            logOptionsAction.Invoke(logOptions);
+            logServiceOptionsAction.Invoke(logOptions);
                         
             services.AddSingleton(logOptions);
 
@@ -19,6 +19,9 @@ namespace Rinsen.Logger
             services.AddSingleton<QueueLoggerProvider, QueueLoggerProvider>();
             services.AddSingleton<IRinsenLoggerInitializer, RinsenLoggerInitializer>();
             services.AddSingleton<ILogServiceClient, LogServiceClient>();
+
+            services.AddScoped<ILogReader, DatabaseLogReader>();
+            services.AddScoped<ILogWriter, DatabaseLogWriter>();
         }
 
         public static void UseLogMiddleware(this IApplicationBuilder app)

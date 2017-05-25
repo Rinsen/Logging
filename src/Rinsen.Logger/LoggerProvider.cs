@@ -11,14 +11,14 @@ namespace Rinsen.Logger
 
         public QueueLoggerProvider(ILogQueue logQueue, LogOptions options)
         {
-            _filter = (category, logLevel) => logLevel >= options.MinLevel && category.StartsWith("");
             _logQueue = logQueue;
             _options = options;
+            _filter = (category, logLevel) => logLevel >= options.MinLevel && category.StartsWith("");
         }
 
         public ILogger CreateLogger(string name)
         {
-            return new Logger(name, _options.EnvironmentName, _filter, _logQueue);
+            return new Logger(name, _filter, _logQueue);
         }
 
         public void Dispose()

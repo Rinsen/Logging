@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Rinsen.Logger
 {
@@ -7,15 +9,13 @@ namespace Rinsen.Logger
     {
         readonly Func<string, LogLevel, bool> _filter;
         readonly string _name;
-        readonly string _environmentName;
         readonly ILogQueue _logQueue;
 
-        public Logger(string name, string environmentName, Func<string, LogLevel, bool> filter, ILogQueue logQueue)
+        public Logger(string name, Func<string, LogLevel, bool> filter, ILogQueue logQueue)
         {
             _name = name;
             _filter = filter;
             _logQueue = logQueue;
-            _environmentName = environmentName;
         }
 
         public bool IsEnabled(LogLevel logLevel)
@@ -31,47 +31,93 @@ namespace Rinsen.Logger
             {
                 return;
             }
-            
-            string exceptionStackTrace;
-            string exceptionMessage;
-            if (exception != null)
+
+            if (state is IEnumerable<KeyValuePair<string, object>> keyValuePairs)
             {
-                exceptionStackTrace = exception.StackTrace;
-                exceptionMessage = exception.Message;
-                ProcessInnerException(logLevel, exception);
+                var logProperties = new List<LogProperty>();
+                string messageTemplate = string.Empty;
+                string requestId = string.Empty;
+
+                foreach (var keyValue in keyValuePairs)
+                {
+                    if (keyValue.Key == "{OriginalFormat}" && keyValue.Value is string)
+                    {
+                        messageTemplate = (string)keyValue.Value;
+                    }
+                    else
+                    {
+                        var value = keyValue.Value?.ToString();
+                        logProperties.Add(new LogProperty { Name = keyValue.Key, Value = value ?? "null" });
+                    }
+                }
+
+                var current = RinsenLogScope.Current;
+                while (current != null)
+                {
+                    foreach (var keyValue in current.GetScopeKeyValuePairs())
+                    {
+                        if (keyValue.Key == "RequestId" && keyValue.Value is string)
+                        {
+                            requestId = (string)keyValue.Value;
+                        }
+                        else
+                        {
+                            logProperties.Add(new LogProperty { Name = keyValue.Key, Value = keyValue.Value.ToString() });
+                        }
+                    }
+                    
+                    current = current.Parent;
+                }
+
+                AddExceptionInformation(exception, logProperties);
+
+                _logQueue.AddLog(_name, requestId, logLevel, messageTemplate, logProperties);
             }
             else
             {
-                exceptionMessage = string.Empty;
-                exceptionStackTrace = string.Empty;
+                var requestId = GetRequestId();
+                _logQueue.AddLog(_name, requestId, logLevel, formatter(state, exception), Enumerable.Empty<LogProperty>());
             }
-
-            _logQueue.AddLog(_name, _environmentName, logLevel, formatter(state, exception), exceptionMessage, exceptionStackTrace);
         }
 
-        private void ProcessInnerException(LogLevel logLevel, Exception exception)
+        private void AddExceptionInformation(Exception exception, List<LogProperty> logProperties, int count = 0)
         {
-            if (exception.InnerException != null)
+            if (exception != null)
             {
-                _logQueue.AddLog(_name, _environmentName, logLevel, string.Format("Inner exception for \"{0}\" message", exception.Message),
-                    exception.InnerException.Message, exception.InnerException.StackTrace);
+                logProperties.Add(new LogProperty { Name = $"ExceptionMessage_{count}", Value = exception.Message });
+                logProperties.Add(new LogProperty { Name = $"ExceptionStackTrace_{count}", Value = exception.Message });
 
-                ProcessInnerException(logLevel, exception.InnerException);
+                AddExceptionInformation(exception.InnerException, logProperties);
             }
+        }
+
+        private static string GetRequestId()
+        {
+            var current = RinsenLogScope.Current;
+            while (current != null)
+            {
+                var scopeItems = current.GetScopeKeyValuePairs();
+                var requestId = scopeItems.FirstOrDefault(m => m.Key == "RequestId");
+
+                if (!requestId.Equals(default(KeyValuePair<string, object>)))
+                {
+                    return requestId.Value.ToString();
+                }
+
+                current = current.Parent;
+            }
+
+            return string.Empty;
         }
 
         public IDisposable BeginScope<TState>(TState state)
         {
-            return NoopDisposable.Instance;
-        }
-
-        class NoopDisposable : IDisposable
-        {
-            public static NoopDisposable Instance = new NoopDisposable();
-
-            public void Dispose()
+            if (state == null)
             {
+                throw new ArgumentNullException(nameof(state));
             }
+
+            return RinsenLogScope.Push(_name, state);
         }
     }
 }

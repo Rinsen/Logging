@@ -2,13 +2,17 @@
 using System;
 using System.Collections.Generic;
 
-namespace Rinsen.Logger
+namespace Rinsen.Logger.Service
 {
-    public class LogItem
+    public class Log
     {
+        public int Id { get; set; }
+
         public string SourceName { get; set; }
 
-        public string EnvironmentName { get; set; }
+        public int ApplicationId { get; set; }
+
+        public int EnvironmentId { get; set; }
 
         public string RequestId { get; set; }
 
@@ -16,9 +20,8 @@ namespace Rinsen.Logger
 
         public string MessageFormat { get; set; }
 
-        public IEnumerable<LogProperty> LogProperties { get; set; }
-
         public DateTimeOffset Timestamp { get; set; }
 
+        public IEnumerable<LogProperty> LogProperties { get; set; }
     }
 }

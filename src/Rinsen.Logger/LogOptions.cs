@@ -11,10 +11,7 @@ namespace Rinsen.Logger
             MaxBatchSize = 200;
             TimeToSleepBetweenBatches = new TimeSpan(0, 0, 10);
             MinLevel = LogLevel.Information;
-            LogItemsTableName = "LogItems";
         }
-
-        public string ConnectionString { get; set; }
 
         public int QueueMazSize { get; set; }
 
@@ -22,10 +19,12 @@ namespace Rinsen.Logger
 
         public TimeSpan TimeToSleepBetweenBatches { get; set; }
 
-        public LogLevel MinLevel { get; set; }
-
-        public string LogItemsTableName { get; set; }
-
         public string EnvironmentName { get; set; }
+
+        public string ApplicationLogKey { get; set; }
+
+        public string LogServiceUri { get; set; }
+
+        public LogLevel MinLevel { get; set; }
     }
 }

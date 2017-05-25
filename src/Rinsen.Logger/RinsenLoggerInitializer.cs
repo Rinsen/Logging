@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Rinsen.Logger
 {
@@ -41,7 +42,21 @@ namespace Rinsen.Logger
                     _loggerFactory.WithFilter(filterLoggerSettings).AddProvider(_queueLoggerProvider);
                 }
                 
-                _logHandlerTask = Task.Run(() => _logHandler.Start());
+                _logHandlerTask = Task.Run(async () =>
+                                            {
+                                                while (true)
+                                                {
+                                                    try
+                                                    {
+                                                        await _logHandler.SendAsync();
+                                                    }
+                                                    catch (Exception)
+                                                    {
+                                                    }
+                                                    
+                                                    await Task.Delay(_options.TimeToSleepBetweenBatches);
+                                                }
+                                            });
                 _initialized = true;
             }
 

@@ -22,15 +22,15 @@ namespace Rinsen.Logger
             return _logs.Count < 1;
         }
 
-        public void AddLog(string sourceName, string environmentName, LogLevel logLevel, string message, string exceptionMessage, string stackTrace)
+        public void AddLog(string sourceName, string requestId, LogLevel logLevel, string messageFormat, IEnumerable<LogProperty> logProperties)
         {
             if (_logs.Count > _logOptions.QueueMazSize)
                 return;
 
-            _logs.Enqueue(new LogItem { SourceName = sourceName, EnvironmentName = environmentName, LogLevel = logLevel, Message = message, Timestamp = DateTimeOffset.Now, ExceptionMessage = exceptionMessage, StackTrace = stackTrace });
+            _logs.Enqueue(new LogItem { SourceName = sourceName, EnvironmentName = _logOptions.EnvironmentName, RequestId = requestId, LogLevel = logLevel, MessageFormat = messageFormat, LogProperties = logProperties, Timestamp = DateTimeOffset.Now });
         }
 
-        public IEnumerable<LogItem> GetLogs()
+        public IEnumerable<LogItem> GetReportedLogs()
         {
             if (_logs.IsEmpty)
             {
@@ -42,10 +42,9 @@ namespace Rinsen.Logger
 
             var result = new List<LogItem>(resultSize);
 
-            LogItem logItem;
             for (int i = 0; i < resultSize; i++)
             {
-                if (!_logs.TryDequeue(out logItem))
+                if (!_logs.TryDequeue(out LogItem logItem))
                     break;
 
                 result.Add(logItem);

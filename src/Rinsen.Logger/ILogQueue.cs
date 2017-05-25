@@ -5,8 +5,8 @@ namespace Rinsen.Logger
 {
     public interface ILogQueue
     {
-        void AddLog(string sourceName, string environmentName, LogLevel logLevel, string message, string exceptionMessage, string stackTrace);
+        void AddLog(string sourceName, string requestId, LogLevel logLevel, string messageFormat, IEnumerable<LogProperty> logProperties);
         bool IsEmpty();
-        IEnumerable<LogItem> GetLogs();
+        IEnumerable<LogItem> GetReportedLogs();
     }
 }

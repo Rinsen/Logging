@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D53C3936-BBAA-49E3-AB9F-9CE04F041CD1}"
 EndProject
@@ -16,7 +16,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerSample", "sample\Logg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rinsen.Logger", "src\Rinsen.Logger\Rinsen.Logger.csproj", "{6BC63497-B83C-4456-B322-BB74EFA769F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rinsen.Logger.Installation", "src\Rinsen.Logger.Installation\Rinsen.Logger.Installation.csproj", "{05880085-9046-44E9-B4DD-84AD654E8774}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rinsen.Logger.Service.Installation", "src\Rinsen.Logger.Installation\Rinsen.Logger.Service.Installation.csproj", "{05880085-9046-44E9-B4DD-84AD654E8774}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rinsen.Logging", "src\Rinsen.Logging\Rinsen.Logging.csproj", "{BDBB95F3-7C46-4B91-96A8-2986FD1FEC1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rinsen.Logger.Service", "src\Rinsen.Logger.Service\Rinsen.Logger.Service.csproj", "{746D729E-234C-4DEB-BD57-7D62FDD445FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +40,14 @@ Global
 		{05880085-9046-44E9-B4DD-84AD654E8774}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05880085-9046-44E9-B4DD-84AD654E8774}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05880085-9046-44E9-B4DD-84AD654E8774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDBB95F3-7C46-4B91-96A8-2986FD1FEC1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDBB95F3-7C46-4B91-96A8-2986FD1FEC1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDBB95F3-7C46-4B91-96A8-2986FD1FEC1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDBB95F3-7C46-4B91-96A8-2986FD1FEC1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{746D729E-234C-4DEB-BD57-7D62FDD445FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{746D729E-234C-4DEB-BD57-7D62FDD445FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{746D729E-234C-4DEB-BD57-7D62FDD445FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{746D729E-234C-4DEB-BD57-7D62FDD445FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,5 +56,7 @@ Global
 		{35EA2428-0C2F-45BB-AB7D-A2A2196E1197} = {62800D4D-21EC-40EB-9C55-3F1DBD028186}
 		{6BC63497-B83C-4456-B322-BB74EFA769F2} = {D53C3936-BBAA-49E3-AB9F-9CE04F041CD1}
 		{05880085-9046-44E9-B4DD-84AD654E8774} = {D53C3936-BBAA-49E3-AB9F-9CE04F041CD1}
+		{BDBB95F3-7C46-4B91-96A8-2986FD1FEC1F} = {D53C3936-BBAA-49E3-AB9F-9CE04F041CD1}
+		{746D729E-234C-4DEB-BD57-7D62FDD445FB} = {D53C3936-BBAA-49E3-AB9F-9CE04F041CD1}
 	EndGlobalSection
 EndGlobal

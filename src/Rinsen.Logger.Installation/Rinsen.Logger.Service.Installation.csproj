@@ -12,11 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Rinsen.Logger\Rinsen.Logger.csproj" />
+    <PackageReference Include="Rinsen.DatabaseInstaller" Version="0.3.8-beta" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Rinsen.DatabaseInstaller" Version="0.3.7-beta" />
+    <ProjectReference Include="..\Rinsen.Logger.Service\Rinsen.Logger.Service.csproj" />
   </ItemGroup>
 
 </Project>
