@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using Microsoft.AspNetCore.Builder;
 
 namespace Rinsen.Logger
 {
@@ -19,11 +18,6 @@ namespace Rinsen.Logger
             services.AddSingleton<QueueLoggerProvider, QueueLoggerProvider>();
             services.AddSingleton<IRinsenLoggerInitializer, RinsenLoggerInitializer>();
             services.AddSingleton<ILogServiceClient, LogServiceClient>();
-        }
-
-        public static void UseLogMiddleware(this IApplicationBuilder app)
-        {
-            app.UseMiddleware<LogMiddleware>();
         }
     }
 }

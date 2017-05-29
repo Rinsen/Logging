@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using Microsoft.AspNetCore.Builder;
+//using Microsoft.AspNetCore.Builder;
 
 namespace Rinsen.Logger.Service
 {
     public static class LogServiceExtensions
     {
-        public static void AddLogger(this IServiceCollection services, Action<LogServiceOptions> logServiceOptionsAction)
+        public static void AddLoggerService(this IServiceCollection services, Action<LogServiceOptions> logServiceOptionsAction)
         {
             var logOptions = new LogServiceOptions();
 
@@ -22,11 +22,6 @@ namespace Rinsen.Logger.Service
 
             services.AddScoped<ILogReader, DatabaseLogReader>();
             services.AddScoped<ILogWriter, DatabaseLogWriter>();
-        }
-
-        public static void UseLogMiddleware(this IApplicationBuilder app)
-        {
-            app.UseMiddleware<LogMiddleware>();
         }
     }
 }

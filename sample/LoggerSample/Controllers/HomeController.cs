@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace LoggerSample.Controllers
 {
     public class HomeController : Controller
@@ -26,8 +24,13 @@ namespace LoggerSample.Controllers
             return View();
         }
 
-        // GET: /<controller>/
         public IActionResult Error()
+        {
+            return View();
+        }
+
+        // GET: /<controller>/
+        public IActionResult GetError()
         {
             throw new NotImplementedException("Not done", new Exception("My inner exception"));
         }

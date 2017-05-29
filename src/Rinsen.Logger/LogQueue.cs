@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿//using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,7 +11,9 @@ namespace Rinsen.Logger
     {
         readonly ConcurrentQueue<LogItem> _logs;
         readonly LogOptions _logOptions;
+        //private readonly IHostingEnvironment _envioronment;
 
+        //public LogQueue(LogOptions logOptions, IHostingEnvironment environment)
         public LogQueue(LogOptions logOptions)
         {
             _logs = new ConcurrentQueue<LogItem>();

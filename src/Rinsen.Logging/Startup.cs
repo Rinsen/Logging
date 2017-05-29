@@ -9,18 +9,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Rinsen.Logger.Service;
+using Rinsen.Logger;
+using Microsoft.AspNetCore.Mvc;
+using Rinsen.IdentityProvider.Core;
 
 namespace Rinsen.Logging
 {
     public class Startup
     {
-        public IHostingEnvironment Env { get; set; }
+        private readonly IHostingEnvironment _env;
+
         public IConfigurationRoot Configuration { get; }
 
         public Startup(IHostingEnvironment env)
         {
-            Env = env;
-
             var builder = new ConfigurationBuilder()
                 .AddEnvironmentVariables();
 
@@ -30,31 +32,48 @@ namespace Rinsen.Logging
             }
 
             Configuration = builder.Build();
+            _env = env;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddLogger(options =>
+            services.AddLoggerService(options =>
             {
                 options.ConnectionString = Configuration["Data:DefaultConnection:ConnectionString"];
-                options.EnvironmentName = Env.EnvironmentName;
                 options.MinLevel = LogLevel.Debug;
-                options.ApplicationLogKey = "Hello123";
-                options.LogServiceUri = "http://localhost:61904/";
+                options.ApplicationLogKey = Configuration["Logging:LogApplicationKey"];
+                options.LogServiceUri = Configuration["Logging:Uri"];
+                options.EnvironmentName = _env.EnvironmentName;
             });
 
-            services.AddMvc();
+            services.AddRinsenAuthentication();
+
+            services.AddAuthorization(options =>
+            {
+
+                //options.AddPolicy("AlwaysFail", policy => policy.Requirements.Add(new AlwaysFailRequirement()));
+
+            });
+
+            services.AddMvc(config =>
+            {
+                config.Filters.Add(new RequireHttpsAttribute());
+
+                //var policy = new AuthorizationPolicyBuilder()
+                //                 .RequireAuthenticatedUser()
+                //                 .Build();
+
+                //config.Filters.Add(new AuthorizeFilter(policy));
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IRinsenLoggerInitializer logInitializer)
         {
-            loggerFactory
-                .AddConsole()
-                .AddDebug();
+            logInitializer.Run(new FilterLoggerSettings {
+                { "Microsoft", LogLevel.Information },
+                { "Rinsen", LogLevel.Information }
+            });
 
             if (env.IsDevelopment())
             {
@@ -64,9 +83,7 @@ namespace Rinsen.Logging
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            //app.UseLogMiddleware();
-
+            
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

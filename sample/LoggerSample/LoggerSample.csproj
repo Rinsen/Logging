@@ -6,7 +6,7 @@
     <AssemblyName>LoggerSample</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>LoggerSample</PackageId>
-    <UserSecretsId>aspnet5-Rinsen.Web-20150804040342</UserSecretsId>
+    <UserSecretsId>LoggerSample</UserSecretsId>
     <RuntimeFrameworkVersion>1.1.2</RuntimeFrameworkVersion>
     <PackageTargetFallback>$(PackageTargetFallback);netcoreapp1.1</PackageTargetFallback>
   </PropertyGroup>

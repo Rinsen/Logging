@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
-    <UserSecretsId>aspnet5-Rinsen.Web-20150804040342</UserSecretsId>
+    <UserSecretsId>Rinsen.Logging</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Home\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
@@ -25,10 +24,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.1" />
+    <PackageReference Include="Rinsen.IdentityProvider.Token" Version="0.1.6" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rinsen.Logger.Service\Rinsen.Logger.Service.csproj" />
-    <ProjectReference Include="..\Rinsen.Logger\Rinsen.Logger.csproj" />
   </ItemGroup>
-
 </Project>

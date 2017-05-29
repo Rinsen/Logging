@@ -9,8 +9,9 @@ namespace LoggerSample
 {
     public class Startup
     {
+        private readonly IHostingEnvironment _env;
+
         public IConfigurationRoot Configuration { get; }
-        public IHostingEnvironment Env { get; }
 
         public Startup(IHostingEnvironment env)
         {
@@ -18,7 +19,8 @@ namespace LoggerSample
                 .AddUserSecrets<Startup>()
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
-            Env = env;
+
+            _env = env;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -27,12 +29,10 @@ namespace LoggerSample
             // Add framework services.
             services.AddLogger(options =>
             {
-                //options.ConnectionString = Configuration["Data:DefaultConnection:ConnectionString"];
-                options.EnvironmentName = Env.EnvironmentName;
                 options.MinLevel = LogLevel.Debug;
-                options.ApplicationLogKey = "Hello123";
-                options.LogServiceUri = "http://localhost:61904/";
-                //options.Application = "LoggerSample";
+                options.ApplicationLogKey = Configuration["Logging:LogApplicationKey"];
+                options.LogServiceUri = Configuration["Logging:Uri"];
+                options.EnvironmentName = _env.EnvironmentName;
             });
 
             services.AddMvc();
@@ -53,9 +53,8 @@ namespace LoggerSample
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                // app.UseStatusCodePagesWithRedirects("~/errors/Code{0}");
             }
-
-            app.UseLogMiddleware();
 
             app.UseMvc(routes =>
             {
