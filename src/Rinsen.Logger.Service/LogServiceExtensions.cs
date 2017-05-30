@@ -13,6 +13,7 @@ namespace Rinsen.Logger.Service
             logServiceOptionsAction.Invoke(logOptions);
                         
             services.AddSingleton(logOptions);
+            services.AddSingleton<LogOptions>(logOptions);
 
             services.AddSingleton<ILogQueue, LogQueue>();
             services.AddSingleton<LogHandler, LogHandler>();

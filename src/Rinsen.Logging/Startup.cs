@@ -11,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Rinsen.Logger.Service;
 using Rinsen.Logger;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Rinsen.IdentityProvider.Token;
 using Rinsen.IdentityProvider.Core;
 
 namespace Rinsen.Logging
@@ -60,11 +63,11 @@ namespace Rinsen.Logging
             {
                 config.Filters.Add(new RequireHttpsAttribute());
 
-                //var policy = new AuthorizationPolicyBuilder()
-                //                 .RequireAuthenticatedUser()
-                //                 .Build();
+                var policy = new AuthorizationPolicyBuilder()
+                                 .RequireAuthenticatedUser()
+                                 .Build();
 
-                //config.Filters.Add(new AuthorizeFilter(policy));
+                config.Filters.Add(new AuthorizeFilter(policy));
             });
         }
 
@@ -83,7 +86,16 @@ namespace Rinsen.Logging
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
+            app.UseTokenAuthenticationWithCookieAuthentication(new TokenOptions(Configuration["Data:DefaultConnection:ConnectionString"])
+            {
+                ApplicationKey = Configuration["IdentityProvider:ApplicationKey"],
+                LoginPath = Configuration["IdentityProvider:LoginPath"],
+                ValidateTokenPath = Configuration["IdentityProvider:ValidateTokenPath"]
+            },
+                new RinsenDefaultCookieAuthenticationOptions(Configuration["Data:DefaultConnection:ConnectionString"])
+            );
+
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
