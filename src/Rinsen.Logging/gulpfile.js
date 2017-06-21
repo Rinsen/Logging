@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     cssmin = require("gulp-cssmin"),
     uglify = require("gulp-uglify");
 
-var webRoot = "./wwwroot /";
+var webRoot = "./wwwroot/";
 var webRootPaths = {
     js: webRoot + "js/**/*.js",
     minJs: webRoot + "js/**/*.min.js",

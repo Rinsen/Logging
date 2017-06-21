@@ -235,8 +235,5 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 *.exe
-/src/Rinsen.Logging/wwwroot /css/site.min.css
-/src/Rinsen.Logging/wwwroot /css/bootstrap.min.css
-/src/Rinsen.Logging/wwwroot /css/bootstrap.css
-/src/Rinsen.Logging/wwwroot /css/bootstrap-theme.min.css
-/src/Rinsen.Logging/wwwroot /css/bootstrap-theme.css
+
+/src/Rinsen.Logging/wwwroot/*/*.css

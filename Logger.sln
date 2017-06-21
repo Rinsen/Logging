@@ -1,12 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D53C3936-BBAA-49E3-AB9F-9CE04F041CD1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{00ED8C56-0D7B-4DF8-B249-A5299A5B99BA}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		Rinsen.Logger.nuspec = Rinsen.Logger.nuspec
 	EndProjectSection
 EndProject
