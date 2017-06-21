@@ -18,6 +18,14 @@ namespace Rinsen.Logging.Controllers
             _logWriter = logWriter;
         }
 
+        public IActionResult Index()
+        {
+
+            return View();
+        }
+
+
+
         [HttpPost]
         public async Task<bool> ReportAsync([FromBody]LogReport logReport)
         {

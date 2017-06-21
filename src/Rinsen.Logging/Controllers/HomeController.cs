@@ -9,17 +9,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Rinsen.Logging.Controllers
 {
-    //[Authorize]
     public class HomeController : Controller
     {
         [AllowAnonymous]
-        // GET: /<controller>/
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Index2()
         {
             return View();
         }

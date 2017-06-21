@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "name": "RinsenLogger",
+  "private": true,
+  "devDependencies": {
+
+  },
+  "dependencies": {
+    "bootstrap": "3.3.7",
+    "gulp": "3.9.1",
+    "gulp-concat": "2.6.1",
+    "gulp-cssmin": "0.2.0",
+    "gulp-uglify": "3.0.0",
+    "rimraf": "2.6.1"
+  }
+}
