@@ -237,3 +237,4 @@ _Pvt_Extensions
 *.exe
 
 /src/Rinsen.Logging/wwwroot/*/*.css
+/src/Rinsen.Logging/wwwroot/*/*.js

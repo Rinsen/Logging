@@ -1,2 +1,124 @@
-<h2>Index</h2>
+<div class="container-fluid">
+    <div class="col-xs-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Log selection</div>
+            <div class="panel-body">
+                <div>
+                    <button class=" btn btn-primary">
+                        Show
+                    </button>
+                </div>
+                <div>
+                    <h2>Period</h2>
+                    <div class="form-group">
+                        <label for="start">Start</label>
+                        <input class="form-control" type="datetime-local" id="start" />
+                    </div>
+                    <div class="form-group">
+                        <label for="end">End</label>
+                        <input class="form-control" type="datetime-local" id="end"/>
+                    </div>
+                </div>
+                <div>
+                    <h2>Environments</h2>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="development" />
+                            Development
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="staging" />
+                            Staging
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="Production" />
+                            Production
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <h2>Applications</h2>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="homecontrol" />
+                            Home Control
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="logging" />
+                            Logging
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="identityprovider" />
+                            Identity provider
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <h2>Log levels</h2>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="trace" />
+                            Trace
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="debug" />
+                            Debug
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="information" />
+                            Information
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="warning" checked />
+                            Warning
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="error" checked />
+                            Error
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="critical" checked />
+                            Critical
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-10">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Log 1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 

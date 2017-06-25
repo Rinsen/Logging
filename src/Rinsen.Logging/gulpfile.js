@@ -24,11 +24,14 @@ var webRootPaths = {
 };
 
 var npmPaths = {
-    bootstrap: "./node_modules/bootstrap/dist/css/**.css"
+    bootstrap: "./node_modules/bootstrap/dist/css/*.css",
+    bootstrapJs: "./node_modules/bootstrap/dist/js/*.js",
+    angularJs: "./node_modules/angular/*.js"
 };
 
 var destPaths = {
-    css: webRoot + "/css/"
+    css: webRoot + "/css/",
+    js: webRoot + "/js/"
 };
 
 gulp.task("clean:js", function (cb) {
@@ -55,11 +58,19 @@ gulp.task("min:css", function () {
         .pipe(gulp.dest("."));
 });
 
-gulp.task("bootstrap:css", function () {
-    return gulp.src([npmPaths.bootstrap])
-        //.pipe(concat(webRootPaths.concatCssDest))
-        //.pipe(cssmin())
+gulp.task("bootstrap", function () {
+    gulp.src([npmPaths.bootstrap])
         .pipe(gulp.dest(destPaths.css));
+
+    return gulp.src([npmPaths.bootstrapJs])
+        .pipe(gulp.dest(destPaths.js));
 });
+
+gulp.task("angular", function () {
+    return gulp.src([npmPaths.angularJs])
+        .pipe(gulp.dest(destPaths.js));
+});
+
+gulp.task("3rdparty", ["bootstrap", "angular"]);
 
 gulp.task("min", ["min:js", "min:css"]);
