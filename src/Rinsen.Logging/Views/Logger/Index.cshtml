@@ -1,4 +1,10 @@
-<div class="container-fluid">
+@model Rinsen.Logging.Models.LoggerModel
+@using Microsoft.AspNetCore.Hosting;
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Serialization;
+
+@inject IHostingEnvironment HostingEnvironment
+<div class="container-fluid" data-ng-controller="LoggerController as vm">
     <div class="col-xs-2">
         <div class="panel panel-primary">
             <div class="panel-heading">Log selection</div>
@@ -120,5 +126,20 @@
         </table>
     </div>
 </div>
+<div id="selectionOptions" data-json="@JsonConvert.SerializeObject(Model.SelectionOptions, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })"></div>
 
-
+@section Scripts 
+{
+    @if (HostingEnvironment.IsDevelopment())
+    {
+        <script src="~/js/debug/app.js"></script>
+        <script src="~/js/debug/Controllers/LoggerController.js"></script>
+        <script src="~/js/debug/Services/LogSelectionOptionsService.js"></script>
+    }
+    else
+    {
+        <script src="~/js/debug/app.js"></script>
+        <script src="~/js/debug/Controllers/LoggerController.js"></script>
+        <script src="~/js/debug/Services/LogSelectionOptionsService.js"></script>
+    }
+}

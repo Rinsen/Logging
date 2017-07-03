@@ -187,9 +187,32 @@ namespace Rinsen.Logger.Service
             return results;
         }
 
-        public Task<IEnumerable<LogApplication>> GetLogApplicationsAsync()
+        public async Task<List<LogApplication>> GetLogApplicationsAsync()
         {
-            throw new NotImplementedException();
+            var logApplications = new List<LogApplication>();
+
+            using (var connection = new SqlConnection(_options.ConnectionString))
+            using (var command = new SqlCommand("SELECT Id, ApplicationKey, ApplicationName FROM LogApplications", connection))
+            {
+                connection.Open();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            logApplications.Add(new LogApplication
+                            {
+                                Id = (int)reader["Id"],
+                                ApplicationKey = (string)reader["ApplicationKey"],
+                                ApplicationName = (string)reader["ApplicationName"]
+                            });
+                        }
+                    }
+                }
+            }
+
+            return logApplications;
         }
 
         public async Task<LogApplication> GetLogApplicationAsync(string applicationKey)

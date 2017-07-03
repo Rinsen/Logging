@@ -26,7 +26,8 @@ var webRootPaths = {
 var npmPaths = {
     bootstrap: "./node_modules/bootstrap/dist/css/*.css",
     bootstrapJs: "./node_modules/bootstrap/dist/js/*.js",
-    angularJs: "./node_modules/angular/*.js"
+    angularJs: "./node_modules/angular/*.js",
+    jQuery: "./node_modules/jquery/dist/*.js"
 };
 
 var destPaths = {
@@ -71,6 +72,16 @@ gulp.task("angular", function () {
         .pipe(gulp.dest(destPaths.js));
 });
 
-gulp.task("3rdparty", ["bootstrap", "angular"]);
+gulp.task("jQuery", function () {
+    return gulp.src([npmPaths.jQuery])
+        .pipe(gulp.dest(destPaths.js));
+});
+
+gulp.task("debug:ngApp", function () {
+    return gulp.src("./ng-app/**/*.js")
+        .pipe(gulp.dest("./wwwroot/js/debug/"));
+});
+
+gulp.task("3rdparty", ["bootstrap", "angular", "jQuery"]);
 
 gulp.task("min", ["min:js", "min:css"]);

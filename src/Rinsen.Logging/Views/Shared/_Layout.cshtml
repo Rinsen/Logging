@@ -3,7 +3,7 @@
 @inject IHostingEnvironment HostingEnvironment
 <!DOCTYPE html>
 
-<html>
+<html data-ng-app="app">
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
@@ -21,7 +21,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                    <a href="#" class="navbar-brand">Log Browser</a>
+                    Log Browser
                 </a>
             </div>
         </div>
@@ -31,13 +31,16 @@
     </div>
     @if (HostingEnvironment.IsDevelopment())
     {
+        <script src="~/js/jquery.js"></script>
         <script src="~/js/angular.js" ></script>
         <script src="~/js/bootstrap.js" ></script>
     }
     else
     {
+        <script src="~/js/jquery.min.js"></script>
         <script src="~/js/angular.min.js" ></script>
         <script src="~/js/bootstrap.min.js" ></script>
     }
+    @RenderSection("Scripts", false)
 </body>
 </html>

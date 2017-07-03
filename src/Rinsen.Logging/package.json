@@ -12,6 +12,7 @@
     "gulp-cssmin": "0.2.0",
     "gulp-uglify": "3.0.0",
     "rimraf": "2.6.1",
-    "angular": "1.6.4"
+    "angular": "1.6.4",
+    "jquery": "3.2.1"
   }
 }
