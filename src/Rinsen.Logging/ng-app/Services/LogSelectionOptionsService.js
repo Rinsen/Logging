@@ -15,7 +15,12 @@
         return service;
 
         function getOptions() {
-            return JSON.parse(document.getElementById("selectionOptions").getAttribute("data-json"));
+            var options = JSON.parse(document.getElementById("selectionOptions").getAttribute("data-json"));
+
+            options.from = new Date(options.from);
+            options.to = new Date(options.to);
+
+            return options;
         }
     }
 })();

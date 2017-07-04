@@ -4,106 +4,62 @@
 @using Newtonsoft.Json.Serialization;
 
 @inject IHostingEnvironment HostingEnvironment
+@{ 
+    ViewBag.NgAppName = "app";
+}
+
 <div class="container-fluid" data-ng-controller="LoggerController as vm">
     <div class="col-xs-2">
         <div class="panel panel-primary">
             <div class="panel-heading">Log selection</div>
             <div class="panel-body">
                 <div>
-                    <button class=" btn btn-primary">
+                    <button class=" btn btn-primary" data-ng-click="vm.show()">
                         Show
                     </button>
                 </div>
                 <div>
-                    <h2>Period</h2>
-                    <div class="form-group">
-                        <label for="start">Start</label>
-                        <input class="form-control" type="datetime-local" id="start" />
-                    </div>
-                    <div class="form-group">
-                        <label for="end">End</label>
-                        <input class="form-control" type="datetime-local" id="end"/>
-                    </div>
-                </div>
-                <div>
                     <h2>Environments</h2>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="development" />
-                            Development
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="staging" />
-                            Staging
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="Production" />
-                            Production
-                        </label>
+                    <div data-ng-repeat="logEnv in vm.options.logEnvironments track by logEnv.id">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-ng-checked="logEnv.selected" data-ng-model="logEnv.selected" />
+                                {{logEnv.name}}
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div>
                     <h2>Applications</h2>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="homecontrol" />
-                            Home Control
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="logging" />
-                            Logging
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="identityprovider" />
-                            Identity provider
-                        </label>
+                    <div data-ng-repeat="logApp in vm.options.logApplications track by logApp.id">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-ng-checked="logApp.selected" data-ng-model="logApp.selected" />
+                                {{logApp.name}}
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div>
                     <h2>Log levels</h2>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="trace" />
-                            Trace
-                        </label>
+                    <div data-ng-repeat="logLevel in vm.options.logLevels track by logLevel.level">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-ng-checked="logLevel.selected" data-ng-model="logLevel.selected" />
+                                {{logLevel.name}}
+                            </label>
+                        </div>
                     </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="debug" />
-                            Debug
-                        </label>
+                </div>
+                <div>
+                    <h2>Period</h2>
+                    <div class="form-group">
+                        <label for="from">From</label>
+                        <input class="form-control" type="datetime-local" id="from" data-ng-model="vm.options.from" />
                     </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="information" />
-                            Information
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="warning" checked />
-                            Warning
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="error" checked />
-                            Error
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="critical" checked />
-                            Critical
-                        </label>
+                    <div class="form-group">
+                        <label for="to">To</label>
+                        <input class="form-control" type="datetime-local" id="to" data-ng-model="vm.options.to" />
                     </div>
                 </div>
             </div>

@@ -19,9 +19,13 @@ namespace Rinsen.Logging.Models
     {
         public IEnumerable<SelectionLogApplication> LogApplications { get; set; }
 
-        public IEnumerable<LogEnvironment> LogEnvironments { get; set; }
+        public IEnumerable<SelectionLogEnvironment> LogEnvironments { get; set; }
 
         public IEnumerable<SelectionLogLevel> LogLevels { get; set; }
+
+        public DateTimeOffset From { get; set; }
+
+        public DateTimeOffset To { get; set; }
 
     }
 
@@ -29,7 +33,18 @@ namespace Rinsen.Logging.Models
     {
         public int Id { get; set; }
 
-        public string ApplicationName { get; set; }
+        public string Name { get; set; }
+
+        public bool Selected { get; set; }
+    }
+
+    public class SelectionLogEnvironment
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public bool Selected { get; set; }
 
     }
 
@@ -39,6 +54,7 @@ namespace Rinsen.Logging.Models
 
         public string Name { get; set; }
 
+        public bool Selected { get; set; }
 
     }
 }

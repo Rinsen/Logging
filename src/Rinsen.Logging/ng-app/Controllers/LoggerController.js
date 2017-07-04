@@ -10,6 +10,15 @@
     function LoggerController($location, logSelectionOptionsService) {
         /* jshint validthis:true */
         var vm = this;
+        vm.show = show;
+
+
+
+
+        function show() {
+            alert(vm.options);
+        }
+        
 
         activate();
 
