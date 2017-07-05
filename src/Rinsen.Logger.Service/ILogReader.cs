@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace Rinsen.Logger.Service
 {
@@ -12,5 +13,6 @@ namespace Rinsen.Logger.Service
         Task<List<LogApplication>> GetLogApplicationsAsync();
         Task<List<LogEnvironment>> GetLogEnvironmentsAsync();
         Task<LogApplication> GetLogApplicationAsync(string applicationKey);
+        Task<IEnumerable<LogView>> GetLogs(DateTimeOffset from, DateTimeOffset to, IEnumerable<int> logApplications, IEnumerable<int> logEnvironments, IEnumerable<int> logLevels);
     }
 }

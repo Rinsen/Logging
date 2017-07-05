@@ -29,13 +29,22 @@ namespace Rinsen.Logging.Controllers
                     LogApplications = await GetLogApplications(),
                     LogEnvironments = await GetLogEnvironments(),
                     LogLevels = GetLogLevels(),
-                    From = DateTimeOffset.Now.AddMinutes(10),
-                    To = DateTimeOffset.Now.AddHours(-24)
+                    From = DateTimeOffset.Now.AddHours(-24),
+                    To = DateTimeOffset.Now.AddMinutes(10)
                 }
             };
 
             return View(model);
         }
+
+        [HttpPost]
+        public async Task<IEnumerable<LogView>> GetLogs([FromBody]SearchModel searchModel)
+        {
+            var result = await _logReader.GetLogs(searchModel.From, searchModel.To, searchModel.LogApplications, searchModel.LogEnvironments, searchModel.LogLevels);
+
+            return result;
+        }
+
 
         private async Task<IEnumerable<SelectionLogEnvironment>> GetLogEnvironments()
         {

@@ -1,14 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace Rinsen.Logger
+namespace Rinsen.Logger.Service
 {
-    public class LogItem
+    public class LogView
     {
         public int Id { get; set; }
 
         public string SourceName { get; set; }
+
+        public string ApplicationName { get; set; }
 
         public string EnvironmentName { get; set; }
 
@@ -18,9 +21,8 @@ namespace Rinsen.Logger
 
         public string MessageFormat { get; set; }
 
-        public IEnumerable<LogProperty> LogProperties { get; set; }
-
         public DateTimeOffset Timestamp { get; set; }
 
+        public IEnumerable<LogProperty> LogProperties { get; set; }
     }
 }

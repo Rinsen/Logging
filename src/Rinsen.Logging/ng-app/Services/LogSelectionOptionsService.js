@@ -9,7 +9,8 @@
 
     function LogSelectionOptionsService($http) {
         var service = {
-            getOptions: getOptions
+            getOptions: getOptions,
+            getLogs: getLogs
         };
 
         return service;
@@ -21,6 +22,10 @@
             options.to = new Date(options.to);
 
             return options;
+        }
+
+        function getLogs(searchModel) {
+            return $http.post('Logger/GetLogs', searchModel);
         }
     }
 })();

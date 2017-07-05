@@ -85,7 +85,7 @@ namespace Rinsen.Logger
             if (exception != null)
             {
                 logProperties.Add(new LogProperty { Name = $"ExceptionMessage_{count}", Value = exception.Message });
-                logProperties.Add(new LogProperty { Name = $"ExceptionStackTrace_{count}", Value = exception.Message });
+                logProperties.Add(new LogProperty { Name = $"ExceptionStackTrace_{count}", Value = exception.StackTrace });
 
                 AddExceptionInformation(exception.InnerException, logProperties);
             }
