@@ -38,9 +38,33 @@ namespace Rinsen.Logging.Controllers
         }
 
         [HttpPost]
-        public async Task<IEnumerable<LogView>> GetLogs([FromBody]SearchModel searchModel)
+        public async Task<IEnumerable<LogResult>> GetLogs([FromBody]SearchModel searchModel)
         {
-            var result = await _logReader.GetLogs(searchModel.From, searchModel.To, searchModel.LogApplications, searchModel.LogEnvironments, searchModel.LogLevels);
+            var logViews = await _logReader.GetLogs(searchModel.From, searchModel.To, searchModel.LogApplications, searchModel.LogEnvironments, searchModel.LogLevels);
+
+            var result = new List<LogResult>();
+            foreach (var log in logViews)
+            {
+                var formatted = log.MessageFormat;
+
+                foreach (var property in log.LogProperties)
+                {
+                    formatted = formatted.Replace($"{{{property.Name}}}", property.Value);
+                }
+                result.Add(new LogResult
+                {
+                    ApplicationName = log.ApplicationName,
+                    EnvironmentName = log.EnvironmentName,
+                    Id = log.Id,
+                    LogLevel = log.LogLevel,
+                    LogProperties = log.LogProperties,
+                    Message = formatted,
+                    MessageFormat = log.MessageFormat,
+                    RequestId = log.RequestId,
+                    SourceName = log.SourceName,
+                    Timestamp = log.Timestamp
+                });
+            }
 
             return result;
         }

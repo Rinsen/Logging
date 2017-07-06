@@ -11,6 +11,7 @@
         /* jshint validthis:true */
         var vm = this;
         vm.show = show;
+        vm.logs = [];
 
         function show() {
             var searchModel = {
@@ -39,7 +40,13 @@
                 }
             });
 
-            logSelectionOptionsService.getLogs(searchModel);
+            logSelectionOptionsService.getLogs(searchModel).then(function (response) {
+                vm.logs.length = 0;
+
+                response.data.forEach(function (log) {
+                    vm.logs.push(log);
+                });
+            });
         }
         
 

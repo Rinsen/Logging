@@ -70,32 +70,46 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Name</th>
+                    <th>SourceName</th>
+                    <th>ApplicationName</th>
+                    <th>EnvironmentName</th>
+                    <th>RequestId</th>
+                    <th>LogLevel</th>
+                    <th>MessageFormat</th>
+                    <th>Message</th>
+                    <th>Timestamp</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody data-ng-repeat="log in vm.logs track by log.id">
                 <tr>
-                    <td>1</td>
-                    <td>Log 1</td>
+                    <td>{{log.id}}</td>
+                    <td>{{log.sourceName}}</td>
+                    <td>{{log.applicationName}}</td>
+                    <td>{{log.environmentName}}</td>
+                    <td>{{log.requestId}}</td>
+                    <td>{{log.logLevel}}</td>
+                    <td>{{log.messageFormat}}</td>
+                    <td>{{log.message}}</td>
+                    <td>{{log.timestamp}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
-<div id="selectionOptions" data-json="@JsonConvert.SerializeObject(Model.SelectionOptions, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })"></div>
+    <div id="selectionOptions" data-json="@JsonConvert.SerializeObject(Model.SelectionOptions, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })"></div>
 
-@section Scripts 
+    @section Scripts
 {
-    @if (HostingEnvironment.IsDevelopment())
-    {
-        <script src="~/js/debug/app.js"></script>
-        <script src="~/js/debug/Controllers/LoggerController.js"></script>
-        <script src="~/js/debug/Services/LogSelectionOptionsService.js"></script>
+        @if (HostingEnvironment.IsDevelopment())
+        {
+            <script src="~/js/debug/app.js"></script>
+            <script src="~/js/debug/Controllers/LoggerController.js"></script>
+            <script src="~/js/debug/Services/LogSelectionOptionsService.js"></script>
+        }
+        else
+        {
+            <script src="~/js/debug/app.js"></script>
+            <script src="~/js/debug/Controllers/LoggerController.js"></script>
+            <script src="~/js/debug/Services/LogSelectionOptionsService.js"></script>
+        }
     }
-    else
-    {
-        <script src="~/js/debug/app.js"></script>
-        <script src="~/js/debug/Controllers/LoggerController.js"></script>
-        <script src="~/js/debug/Services/LogSelectionOptionsService.js"></script>
-    }
-}

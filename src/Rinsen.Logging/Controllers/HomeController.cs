@@ -16,5 +16,12 @@ namespace Rinsen.Logging.Controllers
         {
             return View();
         }
+
+        [AllowAnonymous]
+        public IActionResult Index2()
+        {
+
+            throw new Exception("Tjooooo hooo wooo");
+        }
     }
 }
