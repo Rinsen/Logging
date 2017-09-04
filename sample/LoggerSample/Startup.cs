@@ -9,43 +9,25 @@ namespace LoggerSample
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _env;
+        public IConfiguration Configuration { get; }
 
-        public IConfigurationRoot Configuration { get; }
+        private readonly ILogger<Startup> _logger;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
-            var builder = new ConfigurationBuilder()
-                .AddUserSecrets<Startup>()
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
-
-            _env = env;
+            Configuration = configuration;
+            _logger = logger;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddLogger(options =>
-            {
-                options.MinLevel = LogLevel.Debug;
-                options.ApplicationLogKey = Configuration["Logging:LogApplicationKey"];
-                options.LogServiceUri = Configuration["Logging:Uri"];
-                options.EnvironmentName = _env.EnvironmentName;
-            });
-
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IRinsenLoggerInitializer logInitializer)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            logInitializer.Run(new FilterLoggerSettings {
-                { "Microsoft", LogLevel.Debug },
-                { "Rinsen", LogLevel.Debug }
-            });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -63,9 +45,7 @@ namespace LoggerSample
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            var logger = loggerFactory.CreateLogger<Startup>();
-
-            logger.LogDebug("Staring things");
+            _logger.LogDebug("Staring things");
         }
     }
 }

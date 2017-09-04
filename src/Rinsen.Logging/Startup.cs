@@ -40,15 +40,15 @@ namespace Rinsen.Logging
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddLoggerService(options =>
-            {
-                options.ConnectionString = Configuration["Data:DefaultConnection:ConnectionString"];
-                options.MinLevel = LogLevel.Debug;
-                options.ApplicationLogKey = Configuration["Logging:LogApplicationKey"];
-                options.LogServiceUri = Configuration["Logging:Uri"];
-                options.EnvironmentName = _env.EnvironmentName;
-            });
+            //// Add framework services.
+            //services.AddLoggerService(options =>
+            //{
+            //    options.ConnectionString = Configuration["Data:DefaultConnection:ConnectionString"];
+            //    options.MinLevel = LogLevel.Debug;
+            //    options.ApplicationLogKey = Configuration["Logging:LogApplicationKey"];
+            //    options.LogServiceUri = Configuration["Logging:Uri"];
+            //    options.EnvironmentName = _env.EnvironmentName;
+            //});
 
             services.AddRinsenAuthentication();
 
@@ -71,13 +71,8 @@ namespace Rinsen.Logging
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IRinsenLoggerInitializer logInitializer)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            logInitializer.Run(new FilterLoggerSettings {
-                { "Microsoft", LogLevel.Information },
-                { "Rinsen", LogLevel.Information }
-            });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -87,14 +82,14 @@ namespace Rinsen.Logging
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseTokenAuthenticationWithCookieAuthentication(new TokenOptions(Configuration["Data:DefaultConnection:ConnectionString"])
-            {
-                ApplicationKey = Configuration["IdentityProvider:ApplicationKey"],
-                LoginPath = Configuration["IdentityProvider:LoginPath"],
-                ValidateTokenPath = Configuration["IdentityProvider:ValidateTokenPath"]
-            },
-                new RinsenDefaultCookieAuthenticationOptions(Configuration["Data:DefaultConnection:ConnectionString"])
-            );
+            //app.UseTokenAuthenticationWithCookieAuthentication(new TokenOptions(Configuration["Data:DefaultConnection:ConnectionString"])
+            //{
+            //    ApplicationKey = Configuration["IdentityProvider:ApplicationKey"],
+            //    LoginPath = Configuration["IdentityProvider:LoginPath"],
+            //    ValidateTokenPath = Configuration["IdentityProvider:ValidateTokenPath"]
+            //},
+            //    new RinsenDefaultCookieAuthenticationOptions(Configuration["Data:DefaultConnection:ConnectionString"])
+            //);
 
             app.UseStaticFiles();
 

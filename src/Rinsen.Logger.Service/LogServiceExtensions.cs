@@ -16,9 +16,7 @@ namespace Rinsen.Logger.Service
             services.AddSingleton<LogOptions>(logOptions);
 
             services.AddSingleton<ILogQueue, LogQueue>();
-            services.AddSingleton<LogHandler, LogHandler>();
             services.AddSingleton<QueueLoggerProvider, QueueLoggerProvider>();
-            services.AddSingleton<IRinsenLoggerInitializer, RinsenLoggerInitializer>();
             services.AddSingleton<ILogServiceClient, LogServiceClient>();
 
             services.AddScoped<ILogReader, DatabaseLogReader>();

@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Rinsen.Logger;
+using Microsoft.Extensions.Logging;
 
 namespace LoggerSample
 {
@@ -12,14 +15,35 @@ namespace LoggerSample
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
+            var webHost = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var env = hostingContext.HostingEnvironment;
+                    config.AddEnvironmentVariables();
+                    if (env.IsDevelopment())
+                    {
+                        config.AddUserSecrets<Startup>();
+                    }
+                })
+                .ConfigureLogging((hostingContext, loggingBuilder) =>
+                {
+                    loggingBuilder
+                        .AddFilter("Microsoft", LogLevel.Warning)
+                        .AddFilter("System", LogLevel.Warning)
+                        .AddFilter("LoggerSample", LogLevel.Debug)
+                        .AddRinsenLogger(options => {
+                            options.MinLevel = LogLevel.Debug;
+                            options.ApplicationLogKey = hostingContext.Configuration["Logging:LogApplicationKey"];
+                            options.LogServiceUri = hostingContext.Configuration["Logging:Uri"];
+                            options.EnvironmentName = hostingContext.HostingEnvironment.EnvironmentName;
+                        });
+                })
                 .UseStartup<Startup>()
                 .Build();
 
-            host.Run();
+            webHost.Run();
         }
     }
 }
