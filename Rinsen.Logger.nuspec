@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Rinsen.Logger</id>
-    <version>0.2.6-beta</version>
+    <version>0.2.7-beta</version>
     <title>Logger Asp.Net Core</title>
     <authors>Fredrik Rinsén</authors>
     <owners>Fredrik Rinsén</owners>
@@ -11,6 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Logger implementation for aspnetcore</description>
     <releaseNotes>
+      0.2.7 updated to netstandard2.0
       0.2.6 Slimmed down dependencies to make this more general and not rely on aspnetcore http parts
       0.2.5 Separeted log client and log service for distributed logging support and aspnetcore 1.2
       0.2.4 asp net core 1.1
@@ -22,18 +23,18 @@
     <copyright>Copyright 2017</copyright>
     <tags>logger aspnetcore</tags>
     <dependencies>
-      <group targetFramework=".NETStandard1.3">
-        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="1.1.1" />
-        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.1.2" />
-        <dependency id="Microsoft.Extensions.Logging.Filter"  version="1.1.2" />
-        <dependency id="Newtonsoft.Json" version="10.0.2" />
-        <dependency id="System.Data.SqlClient" version="4.3.1" />
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.0.0" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="2.0.0" />
+        <dependency id="Microsoft.Extensions.Logging.Filter"  version="2.0.0" />
+        <dependency id="Newtonsoft.Json" version="10.0.3" />
+        <dependency id="System.Data.SqlClient" version="4.4.0" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="\src\Rinsen.Logger\bin\Release\netstandard1.3\Rinsen.Logger.dll" target="lib\netstandard1.3" />
-    <file src="\src\Rinsen.Logger\bin\Release\netstandard1.3\Rinsen.Logger.pdb" target="lib\netstandard1.3" />
-    <file src="\src\Rinsen.Logger\bin\Release\netstandard1.3\Rinsen.Logger.deps.json" target="lib\netstandard1.3" />
+    <file src="\src\Rinsen.Logger\bin\Release\netstandard2.0\Rinsen.Logger.dll" target="lib\netstandard2.0" />
+    <file src="\src\Rinsen.Logger\bin\Release\netstandard2.0\Rinsen.Logger.pdb" target="lib\netstandard2.0" />
+    <file src="\src\Rinsen.Logger\bin\Release\netstandard2.0\Rinsen.Logger.deps.json" target="lib\netstandard2.0" />
   </files>
 </package>

@@ -34,7 +34,7 @@ namespace Rinsen.Logger
                     }
                 }
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
 
                 throw;

@@ -40,16 +40,8 @@ namespace Rinsen.Logging
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //// Add framework services.
-            //services.AddLoggerService(options =>
-            //{
-            //    options.ConnectionString = Configuration["Data:DefaultConnection:ConnectionString"];
-            //    options.MinLevel = LogLevel.Debug;
-            //    options.ApplicationLogKey = Configuration["Logging:LogApplicationKey"];
-            //    options.LogServiceUri = Configuration["Logging:Uri"];
-            //    options.EnvironmentName = _env.EnvironmentName;
-            //});
-
+            // Add framework services.
+            
             services.AddRinsenAuthentication();
 
             services.AddAuthorization(options =>

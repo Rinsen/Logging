@@ -34,6 +34,11 @@ namespace Rinsen.Logger
 
         public void Dispose()
         {
+            _cancellationTokenSource?.Dispose();
+            if (_initialized)
+            {
+                StopProcessing();
+            }
         }
 
         private void Initializer()
@@ -48,6 +53,22 @@ namespace Rinsen.Logger
                 _logHandlerTask = Task.Factory.StartNew(ProcessLogQueue, null, TaskCreationOptions.LongRunning);
 
                 _initialized = true;
+            }
+        }
+
+        private void StopProcessing()
+        {
+            _cancellationTokenSource.Cancel();
+
+            try
+            {
+                _logHandlerTask.Wait(_options.TimeToSleepBetweenBatches);
+            }
+            catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException)
+            {
             }
         }
 
