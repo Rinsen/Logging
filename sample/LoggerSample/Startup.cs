@@ -10,12 +10,10 @@ namespace LoggerSample
     {
         public IConfiguration Configuration { get; }
 
-        private readonly ILogger<Startup> _logger;
 
-        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _logger = logger;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -25,7 +23,7 @@ namespace LoggerSample
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -44,7 +42,7 @@ namespace LoggerSample
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            _logger.LogDebug("Staring things");
+            logger.LogDebug("Staring things");
         }
     }
 }

@@ -30,8 +30,8 @@ namespace LoggerSample
                 .ConfigureLogging((hostingContext, loggingBuilder) =>
                 {
                     loggingBuilder
-                        .AddFilter("Microsoft", LogLevel.Warning)
-                        .AddFilter("System", LogLevel.Warning)
+                        .AddFilter("Microsoft", LogLevel.Debug)
+                        .AddFilter("System", LogLevel.Debug)
                         .AddFilter("LoggerSample", LogLevel.Debug)
                         .AddRinsenLogger(options => {
                             options.MinLevel = LogLevel.Debug;

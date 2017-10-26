@@ -21,6 +21,7 @@ namespace Rinsen.Logger.Service
 
             services.AddScoped<ILogReader, DatabaseLogReader>();
             services.AddScoped<ILogWriter, DatabaseLogWriter>();
+            services.AddScoped<LogHandler, LogHandler>();
         }
     }
 }

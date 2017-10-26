@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Rinsen.Logging.Models;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Rinsen.Logging.Controllers
 {
@@ -13,11 +14,13 @@ namespace Rinsen.Logging.Controllers
     {
         private readonly ILogWriter _logWriter;
         private readonly ILogReader _logReader;
+        private readonly LogHandler _logHandler;
 
-        public LoggerController(ILogReader logReader, ILogWriter logWriter)
+        public LoggerController(ILogReader logReader, ILogWriter logWriter, LogHandler logHandler)
         {
             _logReader = logReader;
             _logWriter = logWriter;
+            _logHandler = logHandler;
         }
 
         public async Task<IActionResult> Index()
@@ -40,35 +43,10 @@ namespace Rinsen.Logging.Controllers
         [HttpPost]
         public async Task<IEnumerable<LogResult>> GetLogs([FromBody]SearchModel searchModel)
         {
-            var logViews = await _logReader.GetLogs(searchModel.From, searchModel.To, searchModel.LogApplications, searchModel.LogEnvironments, searchModel.LogLevels);
-
-            var result = new List<LogResult>();
-            foreach (var log in logViews)
-            {
-                var formatted = log.MessageFormat;
-
-                foreach (var property in log.LogProperties)
-                {
-                    formatted = formatted.Replace($"{{{property.Name}}}", property.Value);
-                }
-                result.Add(new LogResult
-                {
-                    ApplicationName = log.ApplicationName,
-                    EnvironmentName = log.EnvironmentName,
-                    Id = log.Id,
-                    LogLevel = log.LogLevel,
-                    LogProperties = log.LogProperties,
-                    Message = formatted,
-                    MessageFormat = log.MessageFormat,
-                    RequestId = log.RequestId,
-                    SourceName = log.SourceName,
-                    Timestamp = log.Timestamp
-                });
-            }
-
-            return result;
+            var logViews = await _logReader.GetLogsAsync(searchModel.From, searchModel.To, searchModel.LogApplications, searchModel.LogEnvironments, searchModel.LogLevels);
+            
+            return logViews.Select(log => new LogResult(log));
         }
-
 
         private async Task<IEnumerable<SelectionLogEnvironment>> GetLogEnvironments()
         {
@@ -103,41 +81,14 @@ namespace Rinsen.Logging.Controllers
                 new SelectionLogLevel { Level = 3, Name = "Warning", Selected = true},
                 new SelectionLogLevel { Level = 4, Name = "Error", Selected = true},
                 new SelectionLogLevel { Level = 5, Name = "Critical", Selected = true},
-
             };
         }
 
         [HttpPost]
-        public async Task<bool> ReportAsync([FromBody]LogReport logReport)
+        [AllowAnonymous]
+        public Task<bool> ReportAsync([FromBody]LogReport logReport)
         {
-            var logApplication = await _logReader.GetLogApplicationAsync(logReport.ApplicationKey);
-
-            if (logApplication == default(LogApplication))
-                return false;
-
-            var logEnvironments = await GetLogEnvironments(logReport);
-
-            var logs = new List<Log>();
-            foreach (var log in logReport.LogItems)
-            {
-                var logEnvironment = logEnvironments.First(m => m.Name == log.EnvironmentName);
-
-                logs.Add(new Log
-                {
-                    ApplicationId = logApplication.Id,
-                    LogLevel = log.LogLevel,
-                    EnvironmentId = logEnvironment.Id,
-                    LogProperties = log.LogProperties,
-                    MessageFormat = log.MessageFormat,
-                    RequestId = log.RequestId,
-                    SourceName = log.SourceName,
-                    Timestamp = log.Timestamp
-                });
-            }
-
-            await _logWriter.WriteLogsAsync(logs);
-
-            return true;
+            return _logHandler.CreateLogs(logReport);
         }
 
         private async Task<List<LogEnvironment>> GetLogEnvironments(LogReport logReport)

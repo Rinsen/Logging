@@ -29,8 +29,8 @@ namespace Rinsen.Logger
                     using (var result = await httpClient.PostAsync($"{_options.LogServiceUri}Logger/ReportAsync", stringContent))
                     {
                         result.EnsureSuccessStatusCode();
-
-                        return JsonConvert.DeserializeObject<bool>(await result.Content.ReadAsStringAsync());
+                        var result2 = await result.Content.ReadAsStringAsync();
+                        return JsonConvert.DeserializeObject<bool>(result2);
                     }
                 }
             }

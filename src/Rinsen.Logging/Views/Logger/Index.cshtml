@@ -71,29 +71,29 @@
                 <tr>
                     <th>Id</th>
                     <th>SourceName</th>
+                    <th>Message</th>
                     <th>ApplicationName</th>
                     <th>EnvironmentName</th>
-                    <th>RequestId</th>
                     <th>LogLevel</th>
-                    <th>MessageFormat</th>
-                    <th>Message</th>
                     <th>Timestamp</th>
                 </tr>
             </thead>
             <tbody data-ng-repeat="log in vm.logs track by log.id">
                 <tr>
                     <td>{{log.id}}</td>
-                    <td>{{log.sourceName}}</td>
+                    <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 30em;">{{log.sourceName}}</td>
+                    <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 50em;">{{log.message}}</td>
                     <td>{{log.applicationName}}</td>
                     <td>{{log.environmentName}}</td>
-                    <td>{{log.requestId}}</td>
-                    <td>{{log.logLevel}}</td>
-                    <td>{{log.messageFormat}}</td>
-                    <td>{{log.message}}</td>
-                    <td>{{log.timestamp}}</td>
+                    <td>{{log.logLevelName}}</td>
+                    <td style="white-space: nowrap">{{log.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 </tr>
             </tbody>
         </table>
+        <div data-ng-show="!vm.dataLoading && vm.logs.length === 0">
+            <div class="alert alert-info" role="alert">No logs to display</div>
+        </div>
+        <div class="loader popup" data-ng-show="vm.dataLoading"></div>
     </div>
 </div>
     <div id="selectionOptions" data-json="@JsonConvert.SerializeObject(Model.SelectionOptions, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })"></div>

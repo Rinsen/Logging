@@ -244,9 +244,10 @@ namespace Rinsen.Logger.Service
             throw new Exception($"Application {applicationKey} not found");
         }
 
-        public async Task<IEnumerable<LogView>> GetLogs(DateTimeOffset from, DateTimeOffset to, IEnumerable<int> logApplications, IEnumerable<int> logEnvironments, IEnumerable<int> logLevels)
+        public async Task<IEnumerable<LogView>> GetLogsAsync(DateTimeOffset from, DateTimeOffset to, IEnumerable<int> logApplications, IEnumerable<int> logEnvironments, IEnumerable<int> logLevels, int take = 200)
         {
             var logs = new List<LogView>();
+            var taken = 0;
 
             using (var connection = new SqlConnection(_options.ConnectionString))
             using (var command = new SqlCommand("", connection))
@@ -258,7 +259,7 @@ namespace Rinsen.Logger.Service
                 {
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (reader.Read() && taken < take)
                         {
                             logs.Add(new LogView
                             {
@@ -272,6 +273,7 @@ namespace Rinsen.Logger.Service
                                 SourceName = (string)reader["SourceName"],
                                 Timestamp = (DateTimeOffset)reader["Timestamp"]
                             });
+                            taken++;
                         }
                     }
                 }

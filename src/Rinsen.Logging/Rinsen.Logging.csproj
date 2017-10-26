@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <!--<PackageTargetFallback>portable-net45+win8</PackageTargetFallback>-->
     <UserSecretsId>Rinsen.Logging</UserSecretsId>
   </PropertyGroup>
 
@@ -15,7 +14,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Rinsen.IdentityProvider.Token" Version="0.1.6" />
+    <PackageReference Include="Rinsen.IdentityProvider.Token" Version="0.1.8" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rinsen.Logger.Service\Rinsen.Logger.Service.csproj" />

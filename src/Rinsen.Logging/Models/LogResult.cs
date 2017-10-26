@@ -1,32 +1,50 @@
 ﻿using Microsoft.Extensions.Logging;
 using Rinsen.Logger;
+using Rinsen.Logger.Service;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Rinsen.Logging.Models
 {
     public class LogResult
     {
-        public int Id { get; set; }
+        private LogView _log;
 
-        public string SourceName { get; set; }
+        public LogResult(LogView log)
+        {
+            _log = log;
+        }
 
-        public string ApplicationName { get; set; }
+        public int Id { get { return _log.Id; } }
 
-        public string EnvironmentName { get; set; }
+        public string SourceName { get { return _log.SourceName; } }
 
-        public string RequestId { get; set; }
+        public string ApplicationName { get { return _log.ApplicationName; } }
 
-        public LogLevel LogLevel { get; set; }
+        public string EnvironmentName { get { return _log.EnvironmentName; } }
 
-        public string MessageFormat { get; set; }
+        public string RequestId { get { return _log.RequestId; } }
 
-        public string Message { get; set; }
+        public LogLevel LogLevel { get { return _log.LogLevel; } }
 
-        public DateTimeOffset Timestamp { get; set; }
+        public string LogLevelName { get { return _log.LogLevel.ToString(); } }
 
-        public IEnumerable<LogProperty> LogProperties { get; set; }
+        public string MessageFormat { get { return _log.MessageFormat; } }
+
+        public string Message
+        {
+            get
+            {  
+                foreach (var property in _log.LogProperties)
+                {
+                    return _log.MessageFormat.Replace($"{{{property.Name}}}", property.Value);
+                }
+                return MessageFormat;
+            }
+        }
+
+        public DateTimeOffset Timestamp { get { return _log.Timestamp; } }
+
+        public IEnumerable<LogProperty> LogProperties { get { return _log.LogProperties; } }
     }
 }

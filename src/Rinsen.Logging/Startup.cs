@@ -1,54 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
-using Rinsen.Logger.Service;
-using Rinsen.Logger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Rinsen.IdentityProvider.Token;
-using Rinsen.IdentityProvider.Core;
+using Rinsen.Logger.Service;
 
 namespace Rinsen.Logging
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _env;
-
-        public IConfigurationRoot Configuration { get; }
-
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .AddEnvironmentVariables();
-
-            if (env.IsDevelopment())
-            {
-                builder.AddUserSecrets<Startup>();
-            }
-
-            Configuration = builder.Build();
-            _env = env;
+            Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            
-            services.AddRinsenAuthentication();
+            services.AddTokenAuthentication(Configuration);
+
+            services.AddLoggerService(options => 
+            {
+                options.ConnectionString = Configuration["Data:DefaultConnection:ConnectionString"];
+            });
 
             services.AddAuthorization(options =>
             {
-
-                //options.AddPolicy("AlwaysFail", policy => policy.Requirements.Add(new AlwaysFailRequirement()));
-
+                options.AddPolicy("AdminsOnly", policy => policy.RequireClaim("http://rinsen.se/Administrator"));
             });
 
             services.AddMvc(config =>
@@ -65,6 +47,8 @@ namespace Rinsen.Logging
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseAuthentication();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -73,15 +57,6 @@ namespace Rinsen.Logging
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            //app.UseTokenAuthenticationWithCookieAuthentication(new TokenOptions(Configuration["Data:DefaultConnection:ConnectionString"])
-            //{
-            //    ApplicationKey = Configuration["IdentityProvider:ApplicationKey"],
-            //    LoginPath = Configuration["IdentityProvider:LoginPath"],
-            //    ValidateTokenPath = Configuration["IdentityProvider:ValidateTokenPath"]
-            //},
-            //    new RinsenDefaultCookieAuthenticationOptions(Configuration["Data:DefaultConnection:ConnectionString"])
-            //);
 
             app.UseStaticFiles();
 

@@ -11,9 +11,13 @@
         /* jshint validthis:true */
         var vm = this;
         vm.show = show;
+        vm.dataLoading = false;
         vm.logs = [];
 
         function show() {
+            vm.dataLoading = true;
+            vm.logs.length = 0;
+
             var searchModel = {
                 from: vm.options.from,
                 to: vm.options.to,
@@ -41,11 +45,10 @@
             });
 
             logSelectionOptionsService.getLogs(searchModel).then(function (response) {
-                vm.logs.length = 0;
-
                 response.data.forEach(function (log) {
                     vm.logs.push(log);
                 });
+                vm.dataLoading = false;
             });
         }
         
