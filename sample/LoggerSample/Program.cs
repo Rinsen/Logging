@@ -29,16 +29,11 @@ namespace LoggerSample
                 })
                 .ConfigureLogging((hostingContext, loggingBuilder) =>
                 {
-                    loggingBuilder
+                    loggingBuilder.AddConsole()
                         .AddFilter("Microsoft", LogLevel.Debug)
                         .AddFilter("System", LogLevel.Debug)
                         .AddFilter("LoggerSample", LogLevel.Debug)
-                        .AddRinsenLogger(options => {
-                            options.MinLevel = LogLevel.Debug;
-                            options.ApplicationLogKey = hostingContext.Configuration["Logging:LogApplicationKey"];
-                            options.LogServiceUri = hostingContext.Configuration["Logging:Uri"];
-                            options.EnvironmentName = hostingContext.HostingEnvironment.EnvironmentName;
-                        });
+                        .AddRinsenLogger(hostingContext.Configuration, hostingContext.HostingEnvironment.EnvironmentName);
                 })
                 .UseStartup<Startup>()
                 .Build();

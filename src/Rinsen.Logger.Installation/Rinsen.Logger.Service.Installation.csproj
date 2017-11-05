@@ -4,8 +4,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Rinsen.Logger.Installation</AssemblyName>
     <PackageId>Rinsen.Logger.Installation</PackageId>
-    <!--<NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>-->
-    <!--<PackageTargetFallback>$(PackageTargetFallback);netcoreapp1.1</PackageTargetFallback>-->
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
