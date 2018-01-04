@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>0.2.9-beta</VersionPrefix>
+    <VersionPrefix>0.2.10-beta</VersionPrefix>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Rinsen.Logger</AssemblyName>
     <PackageId>Rinsen.Logger</PackageId>

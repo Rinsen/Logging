@@ -41,8 +41,8 @@ namespace Rinsen.Logger.Service
 
         public async Task WriteLogsAsync(IEnumerable<Log> logs)
         {
-            string insertSql = string.Format(@"
-                                INSERT INTO {0} (
+            string insertSql = @"
+                                INSERT INTO Logs (
                                     ApplicationId,
                                     SourceName, 
                                     EnvironmentId, 
@@ -61,8 +61,7 @@ namespace Rinsen.Logger.Service
                                     @LogProperties,
                                     @Timestamp);
                                 SELECT 
-                                    CAST(SCOPE_IDENTITY() as int)"
-                                , _options.LogItemsTableName);
+                                    CAST(SCOPE_IDENTITY() as int)";
 
             using (var connection = new SqlConnection(_options.ConnectionString))
             {

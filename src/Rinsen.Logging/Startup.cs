@@ -7,26 +7,36 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Rinsen.IdentityProvider.Token;
 using Rinsen.Logger.Service;
+using Rinsen.DatabaseInstaller;
+using System.Collections.Generic;
+using Rinsen.Logger.Service.Installation;
 
 namespace Rinsen.Logging
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            Env = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Env { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTokenAuthentication(Configuration);
+            services.AddDefaultTokenAuthentication(Configuration);
 
             services.AddLoggerService(options => 
             {
-                options.ConnectionString = Configuration["Data:DefaultConnection:ConnectionString"];
+                options.ConnectionString = Configuration["Rinsen:ConnectionString"];
             });
+
+            if (Env.IsDevelopment())
+            {
+                services.AddDatabaseInstaller(Configuration["Rinsen:ConnectionString"]);
+            }
 
             services.AddAuthorization(options =>
             {
@@ -52,6 +62,11 @@ namespace Rinsen.Logging
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.RunDatabaseInstaller(new List<DatabaseVersion>
+                {
+                    new CreateLogTable()
+                });
             }
             else
             {

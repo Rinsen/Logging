@@ -16,152 +16,7 @@ namespace Rinsen.Logger.Service
         {
             _options = options;
         }
-
-        public IEnumerable<Log> GetLatest(int count, LogLevel logLevel)
-        {
-            var results = new List<Log>(count);
-            using(var connection = new SqlConnection(_options.ConnectionString))
-            using (var command = new SqlCommand(string.Format(@"SELECT Id,
-                                                                    Application,
-                                                                    SourceName, 
-                                                                    EnvironmentName, 
-                                                                    RequestId, 
-                                                                    LogLevel, 
-                                                                    MessageFormat, 
-                                                                    SerializedLogProperties, 
-                                                                    ExceptionMessage, 
-                                                                    StackTrace, 
-                                                                    Timestamp 
-                                                                        FROM {0} 
-                                                                        WHERE 
-                                                                            LogLevel >= @LogLevel 
-                                                                        ORDER BY Id DESC"
-                                                                            , _options.LogItemsTableName), connection))
-            {
-                connection.Open();
-                command.Parameters.Add(new SqlParameter("@LogLevel", logLevel));
-                using (var reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        var number = 0;
-                        while (reader.Read())
-                        {
-                            results.Add(MapLogItem(reader));
-
-                            number++;
-
-                            if (number >= count)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return results;
-        }
-
-        private static Log MapLogItem(SqlDataReader reader)
-        {
-            return new Log
-            {
-                Id = (int)reader["Id"],
-                //Application = (string)reader["Application"],
-                //EnvironmentName = (string)reader["EnvironmentName"],
-                RequestId = (string)reader["RequestId"],
-                LogLevel = (LogLevel)Enum.Parse(typeof(LogLevel), reader["LogLevel"].ToString()),
-                MessageFormat = (string)reader["MessageFormat"],
-                //SerializedLogProperties = (string)reader["SerializedLogProperties"],
-                SourceName = (string)reader["SourceName"],
-                //ExceptionMessage = (string)reader["ExceptionMessage"],
-                //StackTrace = (string)reader["StackTrace"],
-                Timestamp = (DateTimeOffset)reader["Timestamp"]
-            };
-        }
-
-        public IEnumerable<Log> GetLatestFrom(int id, LogLevel logLevel)
-        {
-            var results = new List<Log>();
-            using (var connection = new SqlConnection(_options.ConnectionString))
-            using (var command = new SqlCommand(string.Format(@"SELECT Id,
-                                                                    Application,
-                                                                    SourceName, 
-                                                                    EnvironmentName, 
-                                                                    RequestId, 
-                                                                    LogLevel, 
-                                                                    MessageFormat, 
-                                                                    SerializedLogProperties, 
-                                                                    ExceptionMessage, 
-                                                                    StackTrace, 
-                                                                    Timestamp 
-                                                                FROM {0} 
-                                                                WHERE LogLevel >= @LogLevel 
-                                                                        AND Id >= @Id ORDER BY Id DESC", _options.LogItemsTableName), connection))
-            {
-                connection.Open();
-                command.Parameters.Add(new SqlParameter("@LogLevel", logLevel));
-                command.Parameters.Add(new SqlParameter("@Id", id));
-                using (var reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            results.Add(MapLogItem(reader));
-                        }
-                    }
-                }
-            }
-
-            return results;
-        }
-
-        public IEnumerable<Log> GetMoreFrom(int id, int count, LogLevel logLevel)
-        {
-            var results = new List<Log>(count);
-            using (var connection = new SqlConnection(_options.ConnectionString))
-            using (var command = new SqlCommand(string.Format(@"SELECT Id,
-                                                                    Application,
-                                                                    SourceName, 
-                                                                    EnvironmentName, 
-                                                                    RequestId, 
-                                                                    LogLevel, 
-                                                                    MessageFormat, 
-                                                                    SerializedLogProperties, 
-                                                                    ExceptionMessage, 
-                                                                    StackTrace, 
-                                                                    Timestamp 
-                                                                FROM {0} 
-                                                                WHERE LogLevel >= @LogLevel AND Id >= @Id ORDER BY Id DESC", _options.LogItemsTableName), connection))
-            {
-                connection.Open();
-                command.Parameters.Add(new SqlParameter("@LogLevel", logLevel));
-                command.Parameters.Add(new SqlParameter("@Id", id));
-                using (var reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        var number = 0;
-                        while (reader.Read())
-                        {
-                            results.Add(MapLogItem(reader));
-
-                            number++;
-
-                            if (number >= count)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return results;
-        }
-
+        
         public async Task<List<LogEnvironment>> GetLogEnvironmentsAsync()
         {
             var results = new List<LogEnvironment>();
@@ -194,7 +49,7 @@ namespace Rinsen.Logger.Service
             var logApplications = new List<LogApplication>();
 
             using (var connection = new SqlConnection(_options.ConnectionString))
-            using (var command = new SqlCommand("SELECT Id, ApplicationKey, ApplicationName FROM LogApplications", connection))
+            using (var command = new SqlCommand("SELECT Id, ApplicationKey, Name FROM ExternalApplications", connection))
             {
                 connection.Open();
                 using (var reader = await command.ExecuteReaderAsync())
@@ -207,7 +62,7 @@ namespace Rinsen.Logger.Service
                             {
                                 Id = (int)reader["Id"],
                                 ApplicationKey = (string)reader["ApplicationKey"],
-                                ApplicationName = (string)reader["ApplicationName"]
+                                ApplicationName = (string)reader["Name"]
                             });
                         }
                     }
@@ -220,7 +75,7 @@ namespace Rinsen.Logger.Service
         public async Task<LogApplication> GetLogApplicationAsync(string applicationKey)
         {
             using (var connection = new SqlConnection(_options.ConnectionString))
-            using (var command = new SqlCommand("SELECT Id, ApplicationKey, ApplicationName FROM LogApplications WHERE ApplicationKey = @ApplicationKey", connection))
+            using (var command = new SqlCommand("SELECT Id, ApplicationKey, Name FROM ExternalApplications WHERE ApplicationKey = @ApplicationKey", connection))
             {
                 connection.Open();
                 command.Parameters.Add(new SqlParameter("@ApplicationKey", applicationKey));
@@ -234,7 +89,7 @@ namespace Rinsen.Logger.Service
                             {
                                 Id = (int)reader["Id"],
                                 ApplicationKey = (string)reader["ApplicationKey"],
-                                ApplicationName = (string)reader["ApplicationName"]
+                                ApplicationName = (string)reader["Name"]
                             };
                         }
                     }
@@ -264,7 +119,7 @@ namespace Rinsen.Logger.Service
                             logs.Add(new LogView
                             {
                                 Id = (int)reader["Id"],
-                                ApplicationName = (string)reader["ApplicationName"],
+                                ApplicationName = (string)reader["ExtName"],
                                 EnvironmentName = (string)reader["Name"],
                                 LogLevel = (LogLevel)Enum.Parse(typeof(LogLevel), reader["LogLevel"].ToString()),
                                 LogProperties = JsonConvert.DeserializeObject<IEnumerable<LogProperty>>((string)reader["LogProperties"]),
@@ -294,10 +149,10 @@ namespace Rinsen.Logger.Service
                                                         Logs.RequestId,
                                                         Logs.SourceName,
                                                         Logs.Timestamp,
-                                                        LogApp.ApplicationName,
+                                                        ExtApp.Name AS ExtName,
                                                         LogEnv.Name
 	                                                FROM Logs
-                                                        JOIN LogApplications LogApp ON Logs.ApplicationId = LogApp.Id
+                                                        JOIN ExternalApplications ExtApp ON Logs.ApplicationId = ExtApp.Id
                                                         JOIN LogEnvironments LogEnv ON Logs.EnvironmentId = LogEnv.Id
                                                     WHERE Logs.Timestamp > @from 
                                                         AND Logs.Timestamp < @to 

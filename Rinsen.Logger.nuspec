@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Rinsen.Logger</id>
-    <version>0.2.9-beta</version>
+    <version>0.2.10-beta</version>
     <title>Logger Asp.Net Core</title>
     <authors>Fredrik Rinsén</authors>
     <owners>Fredrik Rinsén</owners>
@@ -11,6 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Logger implementation for aspnetcore</description>
     <releaseNotes>
+      0.2.10 updated configuration keys
       0.2.9 updated configuration possibilities with a easier default extension method 
       0.2.8 updated to netstandard2.0
       0.2.6 Slimmed down dependencies to make this more general and not rely on aspnetcore http parts

@@ -84,14 +84,12 @@ namespace Rinsen.Logger
                         var result = await _logServiceClient.ReportAsync(new LogReport { ApplicationKey = _options.ApplicationLogKey, LogItems = logs });
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                 }
 
                 await Task.Delay(_options.TimeToSleepBetweenBatches, _cancellationTokenSource.Token);
             }
-
-            
         }
     }
 }

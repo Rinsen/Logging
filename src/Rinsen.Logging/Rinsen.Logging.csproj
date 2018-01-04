@@ -13,10 +13,12 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Rinsen.IdentityProvider.Token" Version="0.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Rinsen.DatabaseInstaller" Version="0.4.2-beta" />
+    <PackageReference Include="Rinsen.IdentityProvider.Token" Version="0.2.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Rinsen.Logger.Installation\Rinsen.Logger.Service.Installation.csproj" />
     <ProjectReference Include="..\Rinsen.Logger.Service\Rinsen.Logger.Service.csproj" />
   </ItemGroup>
 </Project>
