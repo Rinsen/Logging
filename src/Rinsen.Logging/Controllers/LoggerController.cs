@@ -33,9 +33,13 @@ namespace Rinsen.Logging.Controllers
                     LogEnvironments = await GetLogEnvironments(),
                     LogLevels = GetLogLevels(),
                     From = DateTimeOffset.Now.AddHours(-24),
-                    To = DateTimeOffset.Now.AddMinutes(10)
+                    To = DateTimeOffset.Now.AddHours(5)
                 }
             };
+
+            var selectionModel = GetSelectionModel();
+
+            ApplySelectionModel(model, selectionModel);
 
             return View(model);
         }
@@ -43,32 +47,27 @@ namespace Rinsen.Logging.Controllers
         [HttpPost]
         public async Task<IEnumerable<LogResult>> GetLogs([FromBody]SearchModel searchModel)
         {
+            UpdateSelectionModel(searchModel);
+
             var logViews = await _logReader.GetLogsAsync(searchModel.From, searchModel.To, searchModel.LogApplications, searchModel.LogEnvironments, searchModel.LogLevels);
-            
-            return logViews.Select(log => new LogResult(log));
+
+            return logViews.Select(log => new LogResult(log)).ToArray();
         }
 
         private async Task<IEnumerable<SelectionLogEnvironment>> GetLogEnvironments()
         {
             return (await _logReader.GetLogEnvironmentsAsync()).Select(le => 
             {
-                if (le.Name == "Development")
-                {
-                    return new SelectionLogEnvironment { Id = le.Id, Name = le.Name, Selected = true };
-                }
                 return new SelectionLogEnvironment { Id = le.Id, Name = le.Name };
-            });
+            }).ToArray();
         }
 
         private async Task<IEnumerable<SelectionLogApplication>> GetLogApplications()
         {
-            return (await _logReader.GetLogApplicationsAsync()).Select(la => {
-                if (la.ApplicationName == "TestApplication")
-                {
-                    return new SelectionLogApplication { Id = la.Id, Name = la.ApplicationName, Selected = true };
-                }
+            return (await _logReader.GetLogApplicationsAsync()).Select(la => 
+            {
                 return new SelectionLogApplication { Id = la.Id, Name = la.ApplicationName };
-            });
+            }).ToArray();
         }
 
         private IEnumerable<SelectionLogLevel> GetLogLevels()
@@ -78,10 +77,52 @@ namespace Rinsen.Logging.Controllers
                 new SelectionLogLevel { Level = 0, Name = "Trace"},
                 new SelectionLogLevel { Level = 1, Name = "Debug"},
                 new SelectionLogLevel { Level = 2, Name = "Information"},
-                new SelectionLogLevel { Level = 3, Name = "Warning", Selected = true},
-                new SelectionLogLevel { Level = 4, Name = "Error", Selected = true},
-                new SelectionLogLevel { Level = 5, Name = "Critical", Selected = true},
+                new SelectionLogLevel { Level = 3, Name = "Warning" },
+                new SelectionLogLevel { Level = 4, Name = "Error" },
+                new SelectionLogLevel { Level = 5, Name = "Critical" },
             };
+        }
+
+        private void UpdateSelectionModel(SearchModel searchModel)
+        {
+            
+        }
+
+        private SelectionModel GetSelectionModel()
+        {
+            return new SelectionModel
+            {
+                LogApplications = new List<int> { 1, 2, 3, 4 },
+                LogEnvironments = new List<int> { 1, 2, 3 },
+                LogLevels = new List<int> { 2, 3, 4, 5 }
+            };
+        }
+
+        private void ApplySelectionModel(LoggerModel model, SelectionModel selectionModel)
+        {
+            foreach (var logApplication in model.SelectionOptions.LogApplications)
+            {
+                if (selectionModel.LogApplications.Contains(logApplication.Id))
+                {
+                    logApplication.Selected = true;
+                }
+            }
+
+            foreach (var logEnvironments in model.SelectionOptions.LogEnvironments)
+            {
+                if (selectionModel.LogEnvironments.Contains(logEnvironments.Id))
+                {
+                    logEnvironments.Selected = true;
+                }
+            }
+
+            foreach (var logLevel in model.SelectionOptions.LogLevels)
+            {
+                if (selectionModel.LogLevels.Contains(logLevel.Level))
+                {
+                    logLevel.Selected = true;
+                }
+            }
         }
 
         [HttpPost]
