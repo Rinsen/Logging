@@ -46,6 +46,7 @@
 
             logSelectionOptionsService.getLogs(searchModel).then(function (response) {
                 response.data.forEach(function (log) {
+                    log.expanded = false;
                     vm.logs.push(log);
                 });
                 vm.dataLoading = false;

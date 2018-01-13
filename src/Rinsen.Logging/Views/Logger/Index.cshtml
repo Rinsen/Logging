@@ -7,7 +7,15 @@
 @{ 
     ViewBag.NgAppName = "app";
 }
-
+<style>
+    .textlimit {
+        display: block;
+        width: 50em;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
 <div class="container-fluid" data-ng-controller="LoggerController as vm">
     <div class="col-xs-2">
         <div class="panel panel-primary">
@@ -73,20 +81,31 @@
                     <th>SourceName</th>
                     <th>Message</th>
                     <th>ApplicationName</th>
-                    <th>EnvironmentName</th>
                     <th>LogLevel</th>
                     <th>Timestamp</th>
                 </tr>
             </thead>
-            <tbody data-ng-repeat="log in vm.logs track by log.id">
+            <tbody data-ng-repeat="log in vm.logs track by log.id" data-ng-click="log.expanded = !log.expanded">
                 <tr>
                     <td>{{log.id}}</td>
-                    <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 30em;">{{log.sourceName}}</td>
-                    <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 50em;">{{log.message}}</td>
+                    <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 20em;">{{log.sourceName}}</td>
+                    <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 20em;">{{log.message}}</td>
                     <td>{{log.applicationName}}</td>
-                    <td>{{log.environmentName}}</td>
                     <td>{{log.logLevelName}}</td>
                     <td style="white-space: nowrap">{{log.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                </tr>
+                <tr data-ng-show="log.expanded">
+                    <td colspan="6">
+                        {{log.message}}<br />
+                        <table class="table table-striped table-bordered">
+                            <tbody data-ng-repeat="prop in log.logProperties">
+                                <tr>
+                                    <td>{{prop.name}}</td>
+                                    <td>{{prop.value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -113,3 +132,4 @@
             <script src="~/js/debug/Services/LogSelectionOptionsService.js"></script>
         }
     }
+
