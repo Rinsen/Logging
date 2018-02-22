@@ -1,0 +1,62 @@
+@model Rinsen.Logging.Models.LoggerModel
+@using Microsoft.AspNetCore.Hosting;
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Serialization;
+
+@inject IHostingEnvironment HostingEnvironment
+@{
+    ViewBag.NgAppName = "app";
+}
+
+<div class="container-fluid" data-ng-controller="DashboardController as vm">
+    <div class="row">
+        <div class="text-center">
+            <div class="btn-group">
+                <a data-ng-click="vm.select('overview')" class="btn btn-default" data-ng-class="{ 'active': vm.selected.overview }">Overview</a>
+                <a data-ng-click="vm.select('specific')" class="btn btn-default" data-ng-class="{ 'active': vm.selected.specific }">Specific</a>
+                <a data-ng-click="vm.select('otherSpecific')" class="btn btn-default" data-ng-class="{ 'active': vm.selected.otherSpecific }">Other Specific</a>
+            </div>
+        </div>
+    </div>
+    {{vm.title}}
+    <div data-ng-if="vm.selected.overview">
+        <div data-ng-controller="OverviewController as ovm">
+            {{ovm.title}}
+        </div>
+    </div>
+    <div data-ng-if="vm.selected.specific">
+        <div data-ng-controller="SpecificController as svm">
+            {{svm.title}}
+        </div>
+    </div>
+    <div data-ng-if="vm.selected.otherSpecific">
+        <div data-ng-controller="OverviewController as osvm">
+            {{osvm.title}}
+        </div>
+    </div>
+
+
+</div>
+
+
+@section Scripts
+    {
+    @if (HostingEnvironment.IsDevelopment())
+    {
+        <script src="~/js/debug/app.js"></script>
+        <script src="~/js/debug/Controllers/DashboardController.js"></script>
+        <script src="~/js/debug/Controllers/OverviewController.js"></script>
+        <script src="~/js/debug/Controllers/SpecificController.js"></script>
+        <script src="~/js/debug/Controllers/OtherSpecificController.js"></script>
+        <script src="~/js/debug/Services/LogSelectionOptionsService.js"></script>
+    }
+    else
+    {
+        <script src="~/js/debug/app.js"></script>
+        <script src="~/js/debug/Controllers/DashboardController.js"></script>
+        <script src="~/js/debug/Controllers/OverviewController.js"></script>
+        <script src="~/js/debug/Controllers/SpecificController.js"></script>
+        <script src="~/js/debug/Controllers/OtherSpecificController.js"></script>
+        <script src="~/js/debug/Services/LogSelectionOptionsService.js"></script>
+    }
+}
